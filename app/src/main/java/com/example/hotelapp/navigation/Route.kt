@@ -2,6 +2,19 @@ package com.example.hotelapp.navigation
 
 sealed class Route {
 
+    // Auth flow (GRAPH + DESTINATIONS)
+    object Auth : Route() {
+        const val route = "auth"
+    }
+
+    object Login : Route() {
+        const val route = "login"
+    }
+
+    object Register : Route() {
+        const val route = "register"
+    }
+
     // Root
     object Dashboard : Route() {
         const val route = "dashboard"

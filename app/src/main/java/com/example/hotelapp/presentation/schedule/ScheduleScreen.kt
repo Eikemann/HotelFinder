@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,11 +16,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,9 +34,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.Schedule
+import com.example.hotelapp.domain.remote.model.booking.OrderResponse
 import com.example.hotelapp.presentation.components.scheduleList
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
@@ -43,12 +49,19 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleScreen(navController: NavController) {
+fun ScheduleScreen(
+    navController: NavController,
+    viewModel: ScheduleScreenViewModel = viewModel()
+) {
 
     var startDate by remember { mutableStateOf<LocalDate?>(null) }
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
 
     val calendarState = rememberSheetState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadMyOrders()
+    }
 
     CalendarDialog(
         state = calendarState,
@@ -64,6 +77,7 @@ fun ScheduleScreen(navController: NavController) {
         )
     )
 
+    val schedules = viewModel.orders.map { it.toSchedule() }
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
 
@@ -77,9 +91,50 @@ fun ScheduleScreen(navController: NavController) {
 
         item { MyScheduleRow() }
 
-        scheduleList(
-            scheduleList = scheduleList, onScheduleCardClick = {})
+        when {
+            viewModel.isLoading -> item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            viewModel.errorMessage != null -> item {
+                Text(
+                    text = viewModel.errorMessage!!,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(24.dp)
+                )
+            }
+
+            schedules.isEmpty() -> item {
+                Text(
+                    text = "You have no bookings yet.",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(24.dp)
+                )
+            }
+
+            else -> scheduleList(
+                scheduleList = schedules,
+                onScheduleCardClick = {}
+            )
+        }
     }
+}
+
+private fun OrderResponse.toSchedule(): Schedule {
+    val dateRange = listOfNotNull(checkInDate, checkOutDate).joinToString(" → ")
+    return Schedule(
+        hotelName = propertyName ?: "Booking",
+        pricePerNight = totalAmount?.let { "$" + "%.2f".format(it) } ?: "",
+        checkInDate = dateRange,
+        imageRes = R.drawable.hotelimage
+    )
 }
 
 
@@ -156,42 +211,3 @@ private fun MyScheduleRow(modifier: Modifier = Modifier) {
         )
     }
 }
-
-val scheduleList = listOf(
-    Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    ), Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    ), Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    ), Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    ), Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    ), Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    ), Schedule(
-        hotelName = "Hotel",
-        pricePerNight = "34.33",
-        checkInDate = "12.12.12",
-        imageRes = R.drawable.hotelimage
-    )
-)

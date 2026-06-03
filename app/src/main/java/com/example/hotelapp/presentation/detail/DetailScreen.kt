@@ -28,6 +28,8 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,8 +37,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -47,6 +52,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -56,6 +62,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.hotelapp.R
+import com.example.hotelapp.domain.remote.model.review.ReviewResponse
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.bottomSheets.BookingBottomSheet
 import com.example.hotelapp.presentation.components.BookingNowButton
@@ -89,6 +96,14 @@ fun DetailScreen(
         skipPartiallyExpanded = true
     )
     var showSheet by remember { mutableStateOf(false) }
+    var showReviewDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(detailViewModel.reviewJustSubmitted) {
+        if (detailViewModel.reviewJustSubmitted) {
+            showReviewDialog = false
+            detailViewModel.consumeReviewSubmitted()
+        }
+    }
 
     if (showSheet) {
         ModalBottomSheet(
@@ -96,9 +111,26 @@ fun DetailScreen(
             sheetState = sheetState
         ) {
             BookingBottomSheet(
+                propertyId = hotelId.toIntOrNull() ?: 0,
                 onClose = { showSheet = false }
             )
         }
+    }
+
+    if (showReviewDialog) {
+        WriteReviewDialog(
+            isSubmitting = detailViewModel.isSubmittingReview,
+            error = detailViewModel.reviewError,
+            onDismiss = {
+                showReviewDialog = false
+                detailViewModel.consumeReviewError()
+            },
+            onSubmit = { rating, title, comment ->
+                hotelId.toIntOrNull()?.let {
+                    detailViewModel.submitReview(it, rating, title, comment)
+                }
+            }
+        )
     }
 
     Scaffold(
@@ -189,10 +221,15 @@ fun DetailScreen(
                     description = hotel.description
                 )
             }
-            item { FacilitiesSection() }
+            item { FacilitiesSection(amenities = hotel.amenities) }
             item { PreviewSection(imageList) }
 
-            item { ReviewSection() }
+            item {
+                ReviewSection(
+                    reviews = detailViewModel.reviews,
+                    onWriteReview = { showReviewDialog = true }
+                )
+            }
         }
 
     }}
@@ -383,7 +420,7 @@ fun PreviewSection(
 }
 
 @Composable
-private fun FacilitiesSection() {
+private fun FacilitiesSection(amenities: List<String>) {
     Column(
         modifier = Modifier
             .padding(top = 16.dp)
@@ -394,43 +431,143 @@ private fun FacilitiesSection() {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        FlowRow(
+        if (amenities.isEmpty()) {
+            Text(
+                text = "No amenities listed for this property.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                maxItemsInEachRow = 4,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                amenities.forEach { amenity ->
+                    FacilityItem(amenity, amenityIcon(amenity))
+                }
+            }
+        }
+    }
+}
+
+private fun amenityIcon(name: String): ImageVector {
+    val n = name.lowercase()
+    return when {
+        "wifi" in n || "wi-fi" in n -> Icons.Default.Build
+        "pool" in n || "beach" in n -> Icons.Default.Person
+        "park" in n -> Icons.Default.LocationOn
+        "restaurant" in n || "breakfast" in n || "bar" in n -> Icons.Default.Home
+        else -> Icons.Default.Star
+    }
+}
+
+@Composable
+private fun ReviewSection(
+    reviews: List<ReviewResponse>,
+    onWriteReview: () -> Unit
+) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            maxItemsInEachRow = 4,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            FacilityItem("Pool", Icons.Default.Person)
-            FacilityItem("Wi-Fi", Icons.Default.Build)
-            FacilityItem("Restaurant", Icons.Default.Home)
-            FacilityItem("Parking", Icons.Default.LocationOn)
-            FacilityItem("Parking", Icons.Default.LocationOn)
-            FacilityItem("Parking", Icons.Default.LocationOn)
-            FacilityItem("Parking", Icons.Default.LocationOn)
-            FacilityItem("Parking", Icons.Default.LocationOn)
-            FacilityItem("Parking", Icons.Default.LocationOn)
+            Text("Reviews", fontWeight = FontWeight.Medium)
+            Text(
+                text = "Write a review",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 12.sp,
+                modifier = Modifier.clickable { onWriteReview() }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        if (reviews.isEmpty()) {
+            Text(
+                text = "No reviews yet. Be the first to review!",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            reviews.forEach { review ->
+                ReviewItem(
+                    name = review.userFullName ?: "Guest",
+                    rating = "${review.rating ?: 0}/10",
+                    comment = listOfNotNull(review.title, review.comment)
+                        .joinToString(" — ")
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+            }
         }
     }
 }
 
 @Composable
-private fun ReviewSection() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Review", fontWeight = FontWeight.Medium)
-            Text("See All", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+private fun WriteReviewDialog(
+    isSubmitting: Boolean,
+    error: String?,
+    onDismiss: () -> Unit,
+    onSubmit: (rating: Int, title: String, comment: String) -> Unit
+) {
+    var rating by remember { mutableStateOf(8) }
+    var title by remember { mutableStateOf("") }
+    var comment by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Write a review") },
+        text = {
+            Column {
+                Text("Rating: $rating / 10", fontWeight = FontWeight.Medium)
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    OutlinedButton(onClick = { if (rating > 1) rating-- }) { Text("-") }
+                    Text(
+                        text = rating.toString(),
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                    OutlinedButton(onClick = { if (rating < 10) rating++ }) { Text("+") }
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = title,
+                    onValueChange = { title = it },
+                    label = { Text("Title") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = comment,
+                    onValueChange = { comment = it },
+                    label = { Text("Comment (optional)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                error?.let {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onSubmit(rating, title, comment) },
+                enabled = !isSubmitting
+            ) {
+                Text(if (isSubmitting) "Submitting..." else "Submit")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        ReviewItem(
-            name = "Jenny Wilson",
-            rating = "5.0",
-            comment = "Very nice and comfortable hotel."
-        )
-    }
+    )
 }
 
 val imageList = listOf(

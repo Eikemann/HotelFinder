@@ -17,6 +17,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Backend base URL. 10.0.2.2 is the host machine's loopback as seen from
+        // the Android emulator. For a physical device, use the host's LAN IP.
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/api/\"")
     }
 
     buildTypes {
@@ -30,14 +34,15 @@ android {
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -69,6 +74,8 @@ dependencies {
 
     implementation(libs.navigation.compose)
     implementation(libs.accompanist.navigation.animation)
+
+    implementation(libs.androidx.datastore.preferences)
 
     implementation("io.coil-kt:coil-compose:2.6.0")
 

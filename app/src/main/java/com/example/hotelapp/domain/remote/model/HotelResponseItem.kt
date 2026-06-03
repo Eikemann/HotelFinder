@@ -1,14 +1,24 @@
 package com.example.hotelapp.domain.remote.model
 
+/**
+ * Mirrors the backend `PropertyResponse` (simple-service). Field names match the
+ * JSON keys exactly so Gson can map them without `@SerializedName`.
+ */
 data class HotelResponseItem(
-    val amenities: List<Amenity>,
-    val description: String,
     val id: Int,
-    val image_url: String,
-    val lattitude: String,
-    val location: String,
-    val longitude: String,
     val name: String,
-    val price_per_night: Int,
-    val rating: Int
+    val description: String?,
+    val address: String?,
+    val city: String?,
+    val country: String?,
+    val phone: String?,
+    val email: String?,
+    val starRating: Int?,
+    val propertyType: String?,
+    val imageUrl: String?,
+    val amenities: List<Amenity> = emptyList(),
+    val rating: Double?,
+    val reviewCount: Int?,
+    val pricePerNight: Double?,
+    val createdAt: String?
 )

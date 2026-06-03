@@ -1,5 +1,6 @@
 package com.example.hotelapp.presentation.dashboard.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
@@ -21,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DashboardScreenTopBar() {
+fun DashboardScreenTopBar(onLogout: () -> Unit = {}) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -56,13 +58,26 @@ fun DashboardScreenTopBar() {
                 )
             }
         }
-        Icon(
-            imageVector = Icons.Default.Notifications,
-            contentDescription = "",
-            modifier = Modifier
-                .width(40.dp)
-                .height(40.dp)
-        )
-    }
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.Notifications,
+                contentDescription = "Notifications",
+                modifier = Modifier
+                    .width(40.dp)
+                    .height(40.dp)
+            )
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                contentDescription = "Log out",
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .width(28.dp)
+                    .height(28.dp)
+                    .clickable { onLogout() }
+            )
+        }
+}
 }
 

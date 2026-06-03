@@ -1,17 +1,37 @@
 package com.example.hotelapp.data.remote.api
 
+import com.example.hotelapp.BuildConfig
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
 
-    val baseUrl = "http://localhost:8080/api/"
+    val baseUrl: String = BuildConfig.BASE_URL
 
-    fun getInstance(): Retrofit{
-        return Retrofit.Builder().baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            // we need to add converter factory to
-            // convert JSON object to Java object
+    private val client: OkHttpClient by lazy {
+        val logging = HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
+        }
+        OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor())
+            .addInterceptor(logging)
             .build()
     }
+
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            // GsonConverterFactory converts the JSON response into Kotlin objects.
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    fun getInstance(): Retrofit = retrofit
 }
