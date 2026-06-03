@@ -4,5 +4,6 @@ data class Schedule(
     val hotelName : String,
     val pricePerNight : String,
     val checkInDate : String,
-    val imageRes: Int
+    val imageRes: Int,
+    val imageUrl: String? = null
 )

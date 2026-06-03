@@ -133,7 +133,8 @@ private fun OrderResponse.toSchedule(): Schedule {
         hotelName = propertyName ?: "Booking",
         pricePerNight = totalAmount?.let { "$" + "%.2f".format(it) } ?: "",
         checkInDate = dateRange,
-        imageRes = R.drawable.hotelimage
+        imageRes = R.drawable.hotelimage,
+        imageUrl = propertyImageUrl
     )
 }
 

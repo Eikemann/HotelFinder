@@ -24,6 +24,7 @@ data class OrderResponse(
     val id: Long,
     val propertyId: Long?,
     val propertyName: String?,
+    val propertyImageUrl: String?,
     val roomId: Long?,
     val roomNumber: String?,
     val userId: Long?,
