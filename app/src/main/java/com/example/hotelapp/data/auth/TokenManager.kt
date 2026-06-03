@@ -63,7 +63,12 @@ object TokenManager {
     }
 
     suspend fun clear() {
+        clearCache()
         appContext.authDataStore.edit { it.clear() }
+    }
+
+    /** Synchronously clears the in-memory cache so callers see logged-out immediately. */
+    fun clearCache() {
         token = null
         email = null
         fullName = null

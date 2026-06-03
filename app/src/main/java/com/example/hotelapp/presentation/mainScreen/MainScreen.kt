@@ -33,11 +33,18 @@ fun MainScreen(navController: NavController, content: @Composable () -> Unit) {
 
     val showBottomBar = items.any { it.route == currentRoute }
 
-    val onLogout: () -> Unit = {
-        scope.launch { TokenManager.clear() }
-        navController.navigate(Route.Auth.route) {
-            popUpTo(Route.Dashboard.route) { inclusive = true }
-            launchSingleTop = true
+    val isLoggedIn = TokenManager.isLoggedIn
+    val onAuthAction: () -> Unit = {
+        if (isLoggedIn) {
+            // Log out but stay browsing as a guest.
+            TokenManager.clearCache()
+            scope.launch { TokenManager.clear() }
+            navController.navigate(Route.Dashboard.route) {
+                popUpTo(Route.Dashboard.route) { inclusive = true }
+                launchSingleTop = true
+            }
+        } else {
+            navController.navigate(Route.Auth.route)
         }
     }
 
@@ -46,7 +53,7 @@ fun MainScreen(navController: NavController, content: @Composable () -> Unit) {
 
         topBar = {
             if (currentRoute != BottomNavItem.Search.route) {
-                DashboardScreenTopBar(onLogout = onLogout)
+                DashboardScreenTopBar(isLoggedIn = isLoggedIn, onAuthAction = onAuthAction)
             }
         },
         bottomBar = {

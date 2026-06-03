@@ -62,6 +62,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.hotelapp.R
+import com.example.hotelapp.data.auth.TokenManager
 import com.example.hotelapp.domain.remote.model.review.ReviewResponse
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.bottomSheets.BookingBottomSheet
@@ -144,7 +145,13 @@ fun DetailScreen(
         },
         bottomBar = {
             BookingNowButton(
-                onClick = { showSheet = true },
+                onClick = {
+                    if (TokenManager.isLoggedIn) {
+                        showSheet = true
+                    } else {
+                        navController.navigate(Route.Auth.route)
+                    }
+                },
             )
         }
     ) { paddingValues ->
@@ -227,7 +234,13 @@ fun DetailScreen(
             item {
                 ReviewSection(
                     reviews = detailViewModel.reviews,
-                    onWriteReview = { showReviewDialog = true }
+                    onWriteReview = {
+                        if (TokenManager.isLoggedIn) {
+                            showReviewDialog = true
+                        } else {
+                            navController.navigate(Route.Auth.route)
+                        }
+                    }
                 )
             }
         }

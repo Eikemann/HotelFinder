@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
@@ -23,7 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DashboardScreenTopBar(onLogout: () -> Unit = {}) {
+fun DashboardScreenTopBar(
+    isLoggedIn: Boolean = false,
+    onAuthAction: () -> Unit = {}
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -69,13 +73,17 @@ fun DashboardScreenTopBar(onLogout: () -> Unit = {}) {
                     .height(40.dp)
             )
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                contentDescription = "Log out",
+                imageVector = if (isLoggedIn) {
+                    Icons.AutoMirrored.Filled.ExitToApp
+                } else {
+                    Icons.Default.AccountCircle
+                },
+                contentDescription = if (isLoggedIn) "Log out" else "Log in",
                 modifier = Modifier
                     .padding(start = 12.dp)
                     .width(28.dp)
                     .height(28.dp)
-                    .clickable { onLogout() }
+                    .clickable { onAuthAction() }
             )
         }
 }
