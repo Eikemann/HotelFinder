@@ -53,7 +53,11 @@ fun MainScreen(navController: NavController, content: @Composable () -> Unit) {
 
         topBar = {
             if (currentRoute != BottomNavItem.Search.route) {
-                DashboardScreenTopBar(isLoggedIn = isLoggedIn, onAuthAction = onAuthAction)
+                DashboardScreenTopBar(
+                    isLoggedIn = isLoggedIn,
+                    userName = TokenManager.fullName,
+                    onAuthAction = onAuthAction
+                )
             }
         },
         bottomBar = {

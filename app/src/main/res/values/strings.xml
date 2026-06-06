@@ -13,8 +13,9 @@
     <string name="nav_schedule">Schedule</string>
 
     <!-- Top bar -->
-    <string name="top_current_location">Current location</string>
-    <string name="top_location_value">Wallace, Australia</string>
+    <string name="greeting_hello">Hello,</string>
+    <string name="greeting_welcome">Welcome,</string>
+    <string name="greeting_guest">Guest</string>
     <string name="cd_notifications">Notifications</string>
     <string name="cd_log_out">Log out</string>
     <string name="cd_log_in">Log in</string>

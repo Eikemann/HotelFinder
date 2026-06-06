@@ -13,8 +13,9 @@
     <string name="nav_schedule">Брони</string>
 
     <!-- Top bar -->
-    <string name="top_current_location">Текущее местоположение</string>
-    <string name="top_location_value">Уоллес, Австралия</string>
+    <string name="greeting_hello">Здравствуйте,</string>
+    <string name="greeting_welcome">Добро пожаловать,</string>
+    <string name="greeting_guest">Гость</string>
     <string name="cd_notifications">Уведомления</string>
     <string name="cd_log_out">Выйти</string>
     <string name="cd_log_in">Войти</string>
