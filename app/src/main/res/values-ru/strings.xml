@@ -168,4 +168,9 @@
     <string name="schedule_empty">У вас пока нет бронирований.</string>
     <string name="schedule_booking_default">Бронирование</string>
     <string name="error_load_bookings">Не удалось загрузить бронирования.</string>
+    <string name="error_delete_booking">Не удалось удалить бронирование.</string>
+    <string name="booking_delete">Удалить бронирование</string>
+    <string name="booking_delete_confirm_title">Удалить бронирование?</string>
+    <string name="booking_delete_confirm_msg">Бронирование будет удалено без возможности восстановления.</string>
+    <string name="common_remove">Удалить</string>
 </resources>

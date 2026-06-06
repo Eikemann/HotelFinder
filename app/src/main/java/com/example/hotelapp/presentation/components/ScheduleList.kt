@@ -6,11 +6,12 @@ import com.example.hotelapp.domain.local.model.Schedule
 
 fun LazyListScope.scheduleList(
     scheduleList : List<Schedule>,
-    onScheduleCardClick: () -> Unit
+    onDelete: (Long) -> Unit
 ){
     items(scheduleList){item ->
         HotelScheduleCard(
-            schedule = item
+            schedule = item,
+            onDelete = { onDelete(item.id) }
         )
     }
 }

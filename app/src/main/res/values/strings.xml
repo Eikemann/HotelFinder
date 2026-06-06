@@ -168,4 +168,9 @@
     <string name="schedule_empty">You have no bookings yet.</string>
     <string name="schedule_booking_default">Booking</string>
     <string name="error_load_bookings">Could not load your bookings.</string>
+    <string name="error_delete_booking">Could not remove the booking.</string>
+    <string name="booking_delete">Remove booking</string>
+    <string name="booking_delete_confirm_title">Remove booking?</string>
+    <string name="booking_delete_confirm_msg">This will permanently remove the booking.</string>
+    <string name="common_remove">Remove</string>
 </resources>

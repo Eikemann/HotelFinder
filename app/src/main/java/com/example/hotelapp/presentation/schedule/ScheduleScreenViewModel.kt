@@ -40,4 +40,17 @@ class ScheduleScreenViewModel : ViewModel() {
             }
         }
     }
+
+    fun deleteOrder(id: Long) {
+        viewModelScope.launch {
+            errorMessage = null
+            try {
+                orderApi.deleteOrder(id)
+                loadMyOrders()
+            } catch (e: Exception) {
+                Log.e("HotelApp", "Error deleting order $id", e)
+                errorMessage = AppRes.str(R.string.error_delete_booking)
+            }
+        }
+    }
 }

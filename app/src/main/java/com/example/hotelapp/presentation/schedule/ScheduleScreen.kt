@@ -123,7 +123,7 @@ fun ScheduleScreen(
 
             else -> scheduleList(
                 scheduleList = schedules,
-                onScheduleCardClick = {}
+                onDelete = { id -> viewModel.deleteOrder(id) }
             )
         }
     }
@@ -132,6 +132,7 @@ fun ScheduleScreen(
 private fun OrderResponse.toSchedule(): Schedule {
     val dateRange = listOfNotNull(checkInDate, checkOutDate).joinToString(" → ")
     return Schedule(
+        id = id,
         hotelName = propertyName ?: AppRes.str(R.string.schedule_booking_default),
         pricePerNight = totalAmount?.let { "$" + "%.2f".format(it) } ?: "",
         checkInDate = dateRange,
