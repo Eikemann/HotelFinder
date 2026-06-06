@@ -11,14 +11,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.hotelapp.R
 
 @Composable
 fun FilterChips(
     selected: String,
     onSelected: (String) -> Unit
 ) {
-    val filters = listOf("All Hotel", "Recommended", "Popular")
+    val filters = listOf(
+        stringResource(R.string.chip_all_hotel),
+        stringResource(R.string.chip_recommended),
+        stringResource(R.string.chip_popular)
+    )
 
     Row(
         modifier = Modifier

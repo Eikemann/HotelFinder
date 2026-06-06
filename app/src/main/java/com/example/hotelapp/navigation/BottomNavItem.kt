@@ -5,27 +5,28 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.hotelapp.R
 
 sealed class BottomNavItem(
     val route: String,
     val icon: ImageVector,
-    val label: String
+    val labelRes: Int
 ) {
     object Home : BottomNavItem(
         route = Route.Home.route,
         icon = Icons.Default.Home,
-        label = "Home"
+        labelRes = R.string.nav_home
     )
     object Search : BottomNavItem(
         route = Route.Search.route,
         icon = Icons.Default.Search,
-        label = "Search"
+        labelRes = R.string.nav_search
     )
 
     object Schedule: BottomNavItem(
         route = Route.Schedule.route,
         icon = Icons.Default.DateRange,
-        label = "Schedule"
+        labelRes = R.string.nav_schedule
     )
 
     companion object{

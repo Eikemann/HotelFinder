@@ -32,11 +32,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.hotelapp.R
+import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.domain.local.model.Schedule
 import com.example.hotelapp.domain.remote.model.booking.OrderResponse
 import com.example.hotelapp.presentation.components.scheduleList
@@ -113,7 +115,7 @@ fun ScheduleScreen(
 
             schedules.isEmpty() -> item {
                 Text(
-                    text = "You have no bookings yet.",
+                    text = stringResource(R.string.schedule_empty),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(24.dp)
                 )
@@ -130,7 +132,7 @@ fun ScheduleScreen(
 private fun OrderResponse.toSchedule(): Schedule {
     val dateRange = listOfNotNull(checkInDate, checkOutDate).joinToString(" → ")
     return Schedule(
-        hotelName = propertyName ?: "Booking",
+        hotelName = propertyName ?: AppRes.str(R.string.schedule_booking_default),
         pricePerNight = totalAmount?.let { "$" + "%.2f".format(it) } ?: "",
         checkInDate = dateRange,
         imageRes = R.drawable.hotelimage,
@@ -169,7 +171,7 @@ private fun DatePickerRow(
             ) {
                 Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)) {
                     Text(
-                        text = date?.format(formatter) ?: "Select",
+                        text = date?.format(formatter) ?: stringResource(R.string.schedule_select),
                         color = Color(0xFF1E1E1E),
                         fontSize = 16.sp,
                         modifier = Modifier.padding(end = 16.dp)
@@ -186,8 +188,8 @@ private fun DatePickerRow(
             .padding(bottom = 23.dp, start = 24.dp, end = 24.dp)
             .fillMaxWidth()
     ) {
-        DateButton(label = "Start date", date = startDate, endPadding = 46)
-        DateButton(label = "End date", date = endDate, endPadding = 55)
+        DateButton(label = stringResource(R.string.schedule_start_date), date = startDate, endPadding = 46)
+        DateButton(label = stringResource(R.string.schedule_end_date), date = endDate, endPadding = 55)
     }
 }
 
@@ -201,12 +203,12 @@ private fun MyScheduleRow(modifier: Modifier = Modifier) {
             .fillMaxWidth()
     ) {
         Text(
-            "My Schedule",
+            stringResource(R.string.schedule_my),
             color = Color(0xFF0F0F0F),
             fontSize = 16.sp,
         )
         Text(
-            "See all",
+            stringResource(R.string.common_see_all),
             color = Color(0xFF4C4DDC),
             fontSize = 14.sp,
         )

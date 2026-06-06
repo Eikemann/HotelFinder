@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -63,6 +64,21 @@ fun DashboardScreen(
 ) {
     val context = LocalContext.current
     var selectedFilterId by remember { mutableStateOf<Int?>(null) }
+
+    val filters = listOf(
+        Filters(id = 1, filterName = stringResource(R.string.filter_hotels), filterIcon = R.drawable.icon),
+        Filters(id = 2, filterName = stringResource(R.string.filter_condos), filterIcon = R.drawable.icon),
+        Filters(id = 3, filterName = stringResource(R.string.filter_houses), filterIcon = R.drawable.icon),
+        Filters(id = 4, filterName = stringResource(R.string.filter_villas), filterIcon = R.drawable.icon),
+        Filters(id = 5, filterName = stringResource(R.string.filter_apartments), filterIcon = R.drawable.icon)
+    )
+    val cities = listOf(
+        stringResource(R.string.city_paris),
+        stringResource(R.string.city_new_york),
+        stringResource(R.string.city_dubai),
+        stringResource(R.string.city_singapore),
+        stringResource(R.string.city_tokyo)
+    )
 
     LaunchedEffect(Unit) {
         viewModel.loadHotels()
@@ -96,13 +112,13 @@ fun DashboardScreen(
 
         item {
             FilterSection(
-                filterList = filterList,
+                filterList = filters,
                 selectedFilterId = selectedFilterId,
                 onFilterClicked = { filterId -> selectedFilterId = filterId },
             )
         }
 
-        items(locations) { location ->
+        items(cities) { location ->
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -111,17 +127,21 @@ fun DashboardScreen(
                     .fillMaxWidth()
             ) {
                 Text(
-                    "Places to stay in $location",
+                    stringResource(R.string.dashboard_places_in, location),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 16.sp,
                 )
                 Text(
-                    "See all",
+                    stringResource(R.string.common_see_all),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     modifier = Modifier.clickable {
                         Toast
-                            .makeText(context, "See all hotels in $location", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context,
+                                context.getString(R.string.dashboard_see_all_in, location),
+                                Toast.LENGTH_SHORT
+                            )
                             .show()
                     }
                 )
@@ -130,7 +150,7 @@ fun DashboardScreen(
             CarouselSection(
                 hotelList = viewModel.hotels,
                 onRedHeartClick = {
-                    Toast.makeText(context, "Heart Click", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.toast_heart), Toast.LENGTH_SHORT).show()
                 },
                 onHotelCardClick = { hotelId ->
                     navController.navigate(Route.HotelDetail.create(hotelId))
@@ -221,7 +241,7 @@ private fun CaruselHotelCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
-                        contentDescription = "Favorite",
+                        contentDescription = stringResource(R.string.cd_favorite),
                         tint = Color.Red,
                         modifier = Modifier.size(14.dp)
                     )
@@ -278,7 +298,7 @@ private fun CaruselHotelCard(
                     )
 
                     Text(
-                        text = " / night",
+                        text = stringResource(R.string.night_suffix),
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -289,12 +309,3 @@ private fun CaruselHotelCard(
 }
 
 
-val filterList = listOf(
-    Filters(id = 1, filterName = "Hotels", filterIcon = R.drawable.icon),
-    Filters(id = 2, filterName = "Condos", filterIcon = R.drawable.icon),
-    Filters(id = 3, filterName = "Houses", filterIcon = R.drawable.icon),
-    Filters(id = 4, filterName = "Villas", filterIcon = R.drawable.icon),
-    Filters(id = 5, filterName = "Apartments", filterIcon = R.drawable.icon)
-)
-
-val locations = listOf("Paris", "New York", "Dubai", "Singapore", "Tokyo")

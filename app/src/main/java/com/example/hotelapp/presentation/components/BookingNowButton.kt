@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.hotelapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +51,7 @@ fun BookingNowButton(
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "/ night",
+                        text = stringResource(R.string.night_suffix),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
@@ -68,7 +70,7 @@ fun BookingNowButton(
                     )
                 ) {
                     Text(
-                        text = "Booking Now",
+                        text = stringResource(R.string.booking_now),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )

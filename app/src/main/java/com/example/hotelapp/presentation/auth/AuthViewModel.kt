@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hotelapp.R
+import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.auth.TokenManager
 import com.example.hotelapp.data.remote.api.AuthApi
 import com.example.hotelapp.data.remote.api.RetrofitHelper
@@ -38,13 +40,13 @@ class AuthViewModel : ViewModel() {
                 isAuthenticated = true
             } catch (e: HttpException) {
                 errorMessage = if (e.code() == 401 || e.code() == 403) {
-                    "Invalid email or password."
+                    AppRes.str(R.string.error_login_invalid)
                 } else {
-                    "Login failed (${e.code()})."
+                    AppRes.str(R.string.error_login_failed, e.code())
                 }
             } catch (e: Exception) {
                 Log.e("HotelApp", "Login error", e)
-                errorMessage = "Could not reach the server. Check your connection."
+                errorMessage = AppRes.str(R.string.error_network)
             } finally {
                 isLoading = false
             }
@@ -53,7 +55,7 @@ class AuthViewModel : ViewModel() {
 
     fun register(fullName: String, email: String, password: String) {
         if (fullName.isBlank()) {
-            errorMessage = "Please enter your full name."
+            errorMessage = AppRes.str(R.string.error_enter_full_name)
             return
         }
         if (!validate(email = email, password = password, minPassword = 6)) return
@@ -68,13 +70,13 @@ class AuthViewModel : ViewModel() {
                 isAuthenticated = true
             } catch (e: HttpException) {
                 errorMessage = if (e.code() == 409 || e.code() == 400) {
-                    "That email may already be registered."
+                    AppRes.str(R.string.error_email_taken)
                 } else {
-                    "Registration failed (${e.code()})."
+                    AppRes.str(R.string.error_register_failed, e.code())
                 }
             } catch (e: Exception) {
                 Log.e("HotelApp", "Register error", e)
-                errorMessage = "Could not reach the server. Check your connection."
+                errorMessage = AppRes.str(R.string.error_network)
             } finally {
                 isLoading = false
             }
@@ -87,14 +89,14 @@ class AuthViewModel : ViewModel() {
 
     private fun validate(email: String, password: String, minPassword: Int = 1): Boolean {
         if (email.isBlank() || !email.contains("@")) {
-            errorMessage = "Please enter a valid email."
+            errorMessage = AppRes.str(R.string.error_invalid_email)
             return false
         }
         if (password.length < minPassword) {
             errorMessage = if (minPassword > 1) {
-                "Password must be at least $minPassword characters."
+                AppRes.str(R.string.error_password_min, minPassword)
             } else {
-                "Please enter your password."
+                AppRes.str(R.string.error_enter_password)
             }
             return false
         }

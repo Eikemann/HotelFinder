@@ -1,3 +1,169 @@
 <resources>
     <string name="app_name">HotelApp</string>
+
+    <!-- Common -->
+    <string name="common_see_all">See all</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_done">Done</string>
+    <string name="night_suffix">" / night"</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_schedule">Schedule</string>
+
+    <!-- Top bar -->
+    <string name="top_current_location">Current location</string>
+    <string name="top_location_value">Wallace, Australia</string>
+    <string name="cd_notifications">Notifications</string>
+    <string name="cd_log_out">Log out</string>
+    <string name="cd_log_in">Log in</string>
+    <string name="cd_favorite">Favorite</string>
+    <string name="cd_filter">Filter</string>
+    <string name="cd_location">Location</string>
+    <string name="cd_prev_month">Previous</string>
+    <string name="cd_next_month">Next</string>
+
+    <!-- Login -->
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="login_button">Sign in</string>
+    <string name="login_to_register">Don\'t have an account? Create one</string>
+
+    <!-- Register -->
+    <string name="register_title">Create account</string>
+    <string name="register_subtitle">Join to start booking stays</string>
+    <string name="register_button">Create account</string>
+    <string name="register_to_login">Already have an account? Sign in</string>
+
+    <!-- Form fields -->
+    <string name="field_email">Email</string>
+    <string name="field_password">Password</string>
+    <string name="field_password_min">Password (min 6 characters)</string>
+    <string name="field_full_name">Full name</string>
+
+    <!-- Auth errors -->
+    <string name="error_login_invalid">Invalid email or password.</string>
+    <string name="error_login_failed">Login failed (%1$d).</string>
+    <string name="error_network">Could not reach the server. Check your connection.</string>
+    <string name="error_enter_full_name">Please enter your full name.</string>
+    <string name="error_email_taken">That email may already be registered.</string>
+    <string name="error_register_failed">Registration failed (%1$d).</string>
+    <string name="error_invalid_email">Please enter a valid email.</string>
+    <string name="error_password_min">Password must be at least %1$d characters.</string>
+    <string name="error_enter_password">Please enter your password.</string>
+    <string name="error_offline_data">Could not connect to server. Showing offline data.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_places_in">Places to stay in %1$s</string>
+    <string name="dashboard_see_all_in">See all hotels in %1$s</string>
+    <string name="toast_heart">Added to favorites</string>
+    <string name="filter_hotels">Hotels</string>
+    <string name="filter_condos">Condos</string>
+    <string name="filter_houses">Houses</string>
+    <string name="filter_villas">Villas</string>
+    <string name="filter_apartments">Apartments</string>
+    <string name="city_paris">Paris</string>
+    <string name="city_new_york">New York</string>
+    <string name="city_dubai">Dubai</string>
+    <string name="city_singapore">Singapore</string>
+    <string name="city_tokyo">Tokyo</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search</string>
+    <string name="search_recommended">Recommended (%1$d)</string>
+    <string name="chip_all_hotel">All Hotels</string>
+    <string name="chip_recommended">Recommended</string>
+    <string name="chip_popular">Popular</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Filter Hotel</string>
+    <string name="filter_country">Country</string>
+    <string name="filter_sort">Sort Results</string>
+    <string name="filter_price_range">Price Range Per Night</string>
+    <string name="filter_star_rating">Star Rating</string>
+    <string name="filter_facilities">Facilities</string>
+    <string name="filter_accommodation">Accommodation Type</string>
+    <string name="filter_reset">Reset</string>
+    <string name="filter_apply">Apply Filter</string>
+    <string name="country_france">France</string>
+    <string name="country_italia">Italia</string>
+    <string name="country_turkey">Turkey</string>
+    <string name="country_germany">Germany</string>
+    <string name="sort_popularity">Highest Popularity</string>
+    <string name="sort_price_high">Highest Price</string>
+    <string name="sort_price_low">Lowest Price</string>
+    <string name="fac_wifi">Wifi</string>
+    <string name="fac_pool">Swimming Pool</string>
+    <string name="fac_parking">Parking</string>
+    <string name="fac_restaurant">Restaurant</string>
+    <string name="acc_hotels">Hotels</string>
+    <string name="acc_resorts">Resorts</string>
+    <string name="acc_villas">Villas</string>
+    <string name="acc_apartments">Apartments</string>
+
+    <!-- Detail -->
+    <string name="detail_top_title">Detail</string>
+    <string name="detail_not_found">Hotel not found.</string>
+    <string name="detail_details">Details</string>
+    <string name="detail_description">Description</string>
+    <string name="detail_read_more">Read More</string>
+    <string name="detail_read_less">Read Less</string>
+    <string name="detail_preview">Preview</string>
+    <string name="detail_facilities">Facilities</string>
+    <string name="detail_no_amenities">No amenities listed for this property.</string>
+    <string name="detail_reviews">Reviews</string>
+    <string name="detail_write_review">Write a review</string>
+    <string name="detail_no_reviews">No reviews yet. Be the first to review!</string>
+    <string name="detail_feature">Feature</string>
+    <string name="detail_type_hotels">Hotels</string>
+    <string name="detail_bedrooms">4 Bedrooms</string>
+    <string name="detail_bathrooms">2 Bathrooms</string>
+    <string name="detail_area">4000 sqft</string>
+    <string name="review_guest">Guest</string>
+    <string name="rating_out_of_10">%1$d/10</string>
+
+    <!-- Review dialog -->
+    <string name="review_dialog_title">Write a review</string>
+    <string name="review_rating_label">Rating: %1$d / 10</string>
+    <string name="review_field_title">Title</string>
+    <string name="review_field_comment">Comment (optional)</string>
+    <string name="review_submit">Submit</string>
+    <string name="review_submitting">Submitting…</string>
+    <string name="error_review_title">Please add a title.</string>
+    <string name="error_review_submit">Could not submit your review.</string>
+    <string name="error_review_network">Could not reach the server.</string>
+
+    <!-- Booking -->
+    <string name="booking_confirmed_title">Booking confirmed!</string>
+    <string name="booking_confirmed_sub">You can see it under your Schedule.</string>
+    <string name="booking_details">Booking Details</string>
+    <string name="booking_choose_room">Choose a room</string>
+    <string name="booking_no_rooms">No rooms are available for this property yet.</string>
+    <string name="booking_total">Total</string>
+    <string name="booking_confirm">Confirm Booking</string>
+    <string name="booking_now">Booking Now</string>
+    <string name="room_default">Room</string>
+    <string name="room_sleeps">Sleeps %1$d</string>
+    <string name="price_per_night_amount">$%1$s / night</string>
+    <string name="error_select_room">Please select a room.</string>
+    <string name="error_checkout_after">Check-out must be after check-in.</string>
+    <string name="error_booking_failed">Booking failed. The room may be unavailable for those dates.</string>
+
+    <!-- Booking selection card -->
+    <string name="select_dates">Select Dates</string>
+    <string name="check_in">Check-in</string>
+    <string name="check_out">Check-out</string>
+    <string name="guests">Guests</string>
+    <string name="guests_count">Guests: %1$d</string>
+
+    <!-- Schedule -->
+    <string name="schedule_top_title">Schedule</string>
+    <string name="schedule_start_date">Start date</string>
+    <string name="schedule_end_date">End date</string>
+    <string name="schedule_select">Select</string>
+    <string name="schedule_my">My Schedule</string>
+    <string name="schedule_empty">You have no bookings yet.</string>
+    <string name="schedule_booking_default">Booking</string>
+    <string name="error_load_bookings">Could not load your bookings.</string>
 </resources>

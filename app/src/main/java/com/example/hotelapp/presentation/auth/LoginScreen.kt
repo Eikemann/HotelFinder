@@ -22,11 +22,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hotelapp.R
 
 @Composable
 fun LoginScreen(
@@ -49,12 +51,12 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome back",
+            text = stringResource(R.string.login_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Sign in to continue",
+            text = stringResource(R.string.login_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -64,7 +66,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it; viewModel.consumeError() },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.field_email)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
@@ -75,7 +77,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it; viewModel.consumeError() },
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.field_password)) },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -107,14 +109,14 @@ fun LoginScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Sign in")
+                Text(stringResource(R.string.login_button))
             }
         }
 
         Spacer(Modifier.height(8.dp))
 
         TextButton(onClick = onNavigateToRegister, enabled = !viewModel.isLoading) {
-            Text("Don't have an account? Create one")
+            Text(stringResource(R.string.login_to_register))
         }
     }
 }

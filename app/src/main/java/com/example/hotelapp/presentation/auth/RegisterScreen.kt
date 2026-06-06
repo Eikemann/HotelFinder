@@ -22,11 +22,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hotelapp.R
 
 @Composable
 fun RegisterScreen(
@@ -50,12 +52,12 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Create account",
+            text = stringResource(R.string.register_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Join to start booking stays",
+            text = stringResource(R.string.register_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -65,7 +67,7 @@ fun RegisterScreen(
         OutlinedTextField(
             value = fullName,
             onValueChange = { fullName = it; viewModel.consumeError() },
-            label = { Text("Full name") },
+            label = { Text(stringResource(R.string.field_full_name)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -75,7 +77,7 @@ fun RegisterScreen(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it; viewModel.consumeError() },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.field_email)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
@@ -86,7 +88,7 @@ fun RegisterScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it; viewModel.consumeError() },
-            label = { Text("Password (min 6 characters)") },
+            label = { Text(stringResource(R.string.field_password_min)) },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -118,14 +120,14 @@ fun RegisterScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Create account")
+                Text(stringResource(R.string.register_button))
             }
         }
 
         Spacer(Modifier.height(8.dp))
 
         TextButton(onClick = onNavigateToLogin, enabled = !viewModel.isLoading) {
-            Text("Already have an account? Sign in")
+            Text(stringResource(R.string.register_to_login))
         }
     }
 }

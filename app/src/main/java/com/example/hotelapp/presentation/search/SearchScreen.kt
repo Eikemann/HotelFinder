@@ -28,9 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.hotelapp.R
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.components.HotelCard
 import com.example.hotelapp.presentation.search.components.FilterChips
@@ -42,7 +44,8 @@ fun SearchScreen(
     viewModel: SearchScreenViewModel = viewModel(),
     navController: NavController
 ) {
-    var selectedFilter by remember { mutableStateOf("All Hotel") }
+    val allHotelsLabel = stringResource(R.string.chip_all_hotel)
+    var selectedFilter by remember { mutableStateOf(allHotelsLabel) }
 
     LaunchedEffect(Unit) {
         viewModel.loadHotels()
@@ -129,7 +132,7 @@ fun ResultHeader(resultCount: Int) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Recommended ($resultCount)",
+            text = stringResource(R.string.search_recommended, resultCount),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )

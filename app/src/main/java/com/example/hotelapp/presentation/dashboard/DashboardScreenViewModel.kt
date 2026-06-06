@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hotelapp.R
+import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.sampleHotels
 import com.example.hotelapp.data.mapper.toHotel
 import com.example.hotelapp.data.remote.api.HotelApi
@@ -40,7 +42,7 @@ class DashboardScreenViewModel : ViewModel() {
                 Log.d("HotelApp", "Hotels fetched from API")
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error fetching hotels", e)
-                errorMessage = "Could not connect to server. Showing offline data."
+                errorMessage = AppRes.str(R.string.error_offline_data)
                 hotels = sampleHotels
             } finally {
                 isLoading = false

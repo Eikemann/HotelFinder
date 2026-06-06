@@ -54,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -172,7 +173,7 @@ fun DetailScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Hotel not found.", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.detail_not_found), style = MaterialTheme.typography.titleMedium)
             }
         } else {
         LazyColumn(
@@ -254,19 +255,19 @@ private fun FeatureSection(modifier: Modifier = Modifier, rating: String) {
         item {
             FeatureChip(
                 icon = Icons.Default.Notifications,
-                text = "chip"
+                text = stringResource(R.string.detail_feature)
             )
         }
         item {
             FeatureChip(
                 icon = Icons.Default.Notifications,
-                text = "chip"
+                text = stringResource(R.string.detail_feature)
             )
         }
         item {
             FeatureChip(
                 icon = Icons.Default.Notifications,
-                text = "chip"
+                text = stringResource(R.string.detail_feature)
             )
         }
         item {
@@ -309,7 +310,7 @@ private fun HotelHeadline(
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = " /night",
+                text = stringResource(R.string.night_suffix),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -322,7 +323,7 @@ private fun HotelHeadline(
         ) {
             Icon(
                 imageVector = Icons.Default.LocationOn,
-                contentDescription = "Location",
+                contentDescription = stringResource(R.string.cd_location),
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(16.dp)
             )
@@ -341,7 +342,7 @@ private fun HotelHeadline(
 @Composable
 private fun DetailSection() {
     Text(
-        text = "Details",
+        text = stringResource(R.string.detail_details),
         color = MaterialTheme.colorScheme.primary,
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -355,10 +356,10 @@ private fun DetailSection() {
             ),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        DetailItem("Hotels", Icons.Default.Home)
-        DetailItem("4 Bedrooms", Icons.Default.Home)
-        DetailItem("2 Bathrooms", Icons.Default.LocationOn)
-        DetailItem("4000 sqft", Icons.Default.Star)
+        DetailItem(stringResource(R.string.detail_type_hotels), Icons.Default.Home)
+        DetailItem(stringResource(R.string.detail_bedrooms), Icons.Default.Home)
+        DetailItem(stringResource(R.string.detail_bathrooms), Icons.Default.LocationOn)
+        DetailItem(stringResource(R.string.detail_area), Icons.Default.Star)
     }
 }
 
@@ -376,7 +377,7 @@ private fun HotelDescription(
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
-            text = "Description",
+            text = stringResource(R.string.detail_description),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold
         )
@@ -395,7 +396,7 @@ private fun HotelDescription(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = if (isExpanded) "Read Less" else "Read More",
+            text = if (isExpanded) stringResource(R.string.detail_read_less) else stringResource(R.string.detail_read_more),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Medium,
@@ -416,7 +417,7 @@ fun PreviewSection(
             .padding(vertical = 16.dp)
     ) {
         Text(
-            text = "Preview",
+            text = stringResource(R.string.detail_preview),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
@@ -440,13 +441,13 @@ private fun FacilitiesSection(amenities: List<String>) {
             .padding(horizontal = 16.dp)
     ) {
 
-        Text("Facilities", fontWeight = FontWeight.Medium)
+        Text(stringResource(R.string.detail_facilities), fontWeight = FontWeight.Medium)
 
         Spacer(modifier = Modifier.height(12.dp))
 
         if (amenities.isEmpty()) {
             Text(
-                text = "No amenities listed for this property.",
+                text = stringResource(R.string.detail_no_amenities),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -486,9 +487,9 @@ private fun ReviewSection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Reviews", fontWeight = FontWeight.Medium)
+            Text(stringResource(R.string.detail_reviews), fontWeight = FontWeight.Medium)
             Text(
-                text = "Write a review",
+                text = stringResource(R.string.detail_write_review),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 12.sp,
                 modifier = Modifier.clickable { onWriteReview() }
@@ -499,15 +500,15 @@ private fun ReviewSection(
 
         if (reviews.isEmpty()) {
             Text(
-                text = "No reviews yet. Be the first to review!",
+                text = stringResource(R.string.detail_no_reviews),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         } else {
             reviews.forEach { review ->
                 ReviewItem(
-                    name = review.userFullName ?: "Guest",
-                    rating = "${review.rating ?: 0}/10",
+                    name = review.userFullName ?: stringResource(R.string.review_guest),
+                    rating = stringResource(R.string.rating_out_of_10, review.rating ?: 0),
                     comment = listOfNotNull(review.title, review.comment)
                         .joinToString(" — ")
                 )
@@ -530,10 +531,10 @@ private fun WriteReviewDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Write a review") },
+        title = { Text(stringResource(R.string.review_dialog_title)) },
         text = {
             Column {
-                Text("Rating: $rating / 10", fontWeight = FontWeight.Medium)
+                Text(stringResource(R.string.review_rating_label, rating), fontWeight = FontWeight.Medium)
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     OutlinedButton(onClick = { if (rating > 1) rating-- }) { Text("-") }
@@ -548,7 +549,7 @@ private fun WriteReviewDialog(
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Title") },
+                    label = { Text(stringResource(R.string.review_field_title)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -556,7 +557,7 @@ private fun WriteReviewDialog(
                 OutlinedTextField(
                     value = comment,
                     onValueChange = { comment = it },
-                    label = { Text("Comment (optional)") },
+                    label = { Text(stringResource(R.string.review_field_comment)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 error?.let {
@@ -574,11 +575,11 @@ private fun WriteReviewDialog(
                 onClick = { onSubmit(rating, title, comment) },
                 enabled = !isSubmitting
             ) {
-                Text(if (isSubmitting) "Submitting..." else "Submit")
+                Text(if (isSubmitting) stringResource(R.string.review_submitting) else stringResource(R.string.review_submit))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel)) }
         }
     )
 }

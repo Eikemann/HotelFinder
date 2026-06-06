@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hotelapp.R
+import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.remote.api.OrderApi
 import com.example.hotelapp.data.remote.api.RetrofitHelper
 import com.example.hotelapp.data.remote.api.RoomApi
@@ -49,7 +51,7 @@ class BookingViewModel : ViewModel() {
                 selectedRoom = result.firstOrNull { it.status == "AVAILABLE" } ?: result.firstOrNull()
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error loading rooms for $propertyId", e)
-                errorMessage = "Could not load rooms for this property."
+                errorMessage = AppRes.str(R.string.booking_no_rooms)
             } finally {
                 isLoadingRooms = false
             }
@@ -63,11 +65,11 @@ class BookingViewModel : ViewModel() {
     fun confirmBooking(propertyId: Long, checkIn: LocalDate, checkOut: LocalDate) {
         val room = selectedRoom
         if (room == null) {
-            errorMessage = "Please select a room."
+            errorMessage = AppRes.str(R.string.error_select_room)
             return
         }
         if (!checkOut.isAfter(checkIn)) {
-            errorMessage = "Check-out must be after check-in."
+            errorMessage = AppRes.str(R.string.error_checkout_after)
             return
         }
         viewModelScope.launch {
@@ -85,10 +87,10 @@ class BookingViewModel : ViewModel() {
                 bookingConfirmed = true
             } catch (e: HttpException) {
                 errorMessage = e.serverMessage()
-                    ?: "Booking failed. The room may be unavailable for those dates."
+                    ?: AppRes.str(R.string.error_booking_failed)
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error creating order", e)
-                errorMessage = "Could not reach the server. Check your connection."
+                errorMessage = AppRes.str(R.string.error_network)
             } finally {
                 isSubmitting = false
             }

@@ -26,9 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hotelapp.R
 import com.example.hotelapp.domain.remote.model.booking.RoomResponse
 import com.example.hotelapp.presentation.booking.BookingViewModel
 import com.example.hotelapp.presentation.components.BookingSelectionCard
@@ -75,7 +77,7 @@ fun BookingBottomSheet(
         }
 
         Text(
-            text = "Booking Details",
+            text = stringResource(R.string.booking_details),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold
         )
@@ -83,7 +85,7 @@ fun BookingBottomSheet(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Choose a room",
+            text = stringResource(R.string.booking_choose_room),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold
         )
@@ -95,7 +97,7 @@ fun BookingBottomSheet(
             }
             viewModel.rooms.isEmpty() -> {
                 Text(
-                    text = "No rooms are available for this property yet.",
+                    text = stringResource(R.string.booking_no_rooms),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -127,7 +129,7 @@ fun BookingBottomSheet(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Total", fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.booking_total), fontWeight = FontWeight.SemiBold)
                 Text(
                     text = "$" + "%.2f".format(total),
                     fontWeight = FontWeight.Bold,
@@ -160,7 +162,7 @@ fun BookingBottomSheet(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Confirm Booking")
+                Text(stringResource(R.string.booking_confirm))
             }
         }
 
@@ -170,7 +172,7 @@ fun BookingBottomSheet(
             onClick = onClose,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
-            Text("Cancel")
+            Text(stringResource(R.string.common_cancel))
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -199,13 +201,13 @@ private fun RoomOption(
     ) {
         Column {
             Text(
-                text = (room.roomType ?: "Room") +
+                text = (room.roomType ?: stringResource(R.string.room_default)) +
                     (room.roomNumber?.let { " · #$it" } ?: ""),
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = listOfNotNull(
-                    room.capacity?.let { "Sleeps $it" },
+                    room.capacity?.let { stringResource(R.string.room_sleeps, it) },
                     room.status?.takeIf { it != "AVAILABLE" }
                 ).joinToString(" · "),
                 style = MaterialTheme.typography.bodySmall,
@@ -214,7 +216,7 @@ private fun RoomOption(
         }
         room.pricePerNight?.let {
             Text(
-                text = "$" + "%.0f".format(it) + "/night",
+                text = stringResource(R.string.price_per_night_amount, "%.0f".format(it)),
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -231,20 +233,20 @@ private fun BookingConfirmed(onDone: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Booking confirmed!",
+            text = stringResource(R.string.booking_confirmed_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "You can see it under your Schedule.",
+            text = stringResource(R.string.booking_confirmed_sub),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(20.dp))
         Button(onClick = onDone, modifier = Modifier.fillMaxWidth().height(52.dp)) {
-            Text("Done")
+            Text(stringResource(R.string.common_done))
         }
         Spacer(modifier = Modifier.height(16.dp))
     }

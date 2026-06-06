@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.hotelapp.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +40,7 @@ fun DashboardScreenTopBar(
         Column(
         ) {
             Text(
-                "Current location",
+                stringResource(R.string.top_current_location),
                 color = Color(0xFF939393),
                 fontSize = 12.sp,
                 modifier = Modifier
@@ -55,7 +57,7 @@ fun DashboardScreenTopBar(
                         .height(20.dp)
                 )
                 Text(
-                    "Wallace, Australia",
+                    stringResource(R.string.top_location_value),
                     color = Color(0xFF0F0F0F),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
@@ -67,7 +69,7 @@ fun DashboardScreenTopBar(
         ) {
             Icon(
                 imageVector = Icons.Default.Notifications,
-                contentDescription = "Notifications",
+                contentDescription = stringResource(R.string.cd_notifications),
                 modifier = Modifier
                     .width(40.dp)
                     .height(40.dp)
@@ -78,7 +80,11 @@ fun DashboardScreenTopBar(
                 } else {
                     Icons.Default.AccountCircle
                 },
-                contentDescription = if (isLoggedIn) "Log out" else "Log in",
+                contentDescription = if (isLoggedIn) {
+                    stringResource(R.string.cd_log_out)
+                } else {
+                    stringResource(R.string.cd_log_in)
+                },
                 modifier = Modifier
                     .padding(start = 12.dp)
                     .width(28.dp)

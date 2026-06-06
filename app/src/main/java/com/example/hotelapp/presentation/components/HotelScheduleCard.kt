@@ -19,9 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.Schedule
 
 @Composable
@@ -91,7 +93,7 @@ fun HotelScheduleCard(
                             color = Color(0xFF4C4DDC),
                         )
                         Text(
-                            text = " /night",
+                            text = stringResource(R.string.night_suffix),
                             color = MaterialTheme.colorScheme.surfaceVariant,
                         )
                     }

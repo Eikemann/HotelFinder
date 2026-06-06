@@ -15,7 +15,9 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.hotelapp.R
 
 @Composable
 fun SearchBar(
@@ -30,7 +32,7 @@ fun SearchBar(
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
 
-        placeholder = { Text("Search") },
+        placeholder = { Text(stringResource(R.string.search_hint)) },
         singleLine = true,
         shape = RoundedCornerShape(12.dp),
         leadingIcon = {
@@ -43,7 +45,7 @@ fun SearchBar(
         trailingIcon = {
             Icon(
                 Icons.Default.List,
-                contentDescription = "Filter",
+                contentDescription = stringResource(R.string.cd_filter),
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable(onClick = onFilterIconClick)
             )

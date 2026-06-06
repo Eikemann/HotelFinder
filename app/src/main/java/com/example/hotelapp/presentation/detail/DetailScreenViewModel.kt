@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hotelapp.R
+import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.sampleHotels
 import com.example.hotelapp.data.mapper.toHotel
 import com.example.hotelapp.data.remote.api.HotelApi
@@ -58,7 +60,7 @@ class DetailScreenViewModel : ViewModel() {
                 Log.d("HotelApp", "Hotel $hotelId fetched from API")
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error fetching hotel $hotelId", e)
-                errorMessage = "Could not connect to server. Showing offline data."
+                errorMessage = AppRes.str(R.string.error_offline_data)
                 hotel = sampleHotels.find { it.id == hotelId }
             } finally {
                 isLoading = false
@@ -80,7 +82,7 @@ class DetailScreenViewModel : ViewModel() {
 
     fun submitReview(propertyId: Int, rating: Int, title: String, comment: String) {
         if (title.isBlank()) {
-            reviewError = "Please add a title."
+            reviewError = AppRes.str(R.string.error_review_title)
             return
         }
         viewModelScope.launch {
@@ -98,10 +100,10 @@ class DetailScreenViewModel : ViewModel() {
                 reviewJustSubmitted = true
                 loadReviews(propertyId)
             } catch (e: HttpException) {
-                reviewError = e.serverMessage() ?: "Could not submit your review."
+                reviewError = e.serverMessage() ?: AppRes.str(R.string.error_review_submit)
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error submitting review", e)
-                reviewError = "Could not reach the server."
+                reviewError = AppRes.str(R.string.error_review_network)
             } finally {
                 isSubmittingReview = false
             }

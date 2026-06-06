@@ -1,0 +1,169 @@
+<resources>
+    <string name="app_name">HotelApp</string>
+
+    <!-- Common -->
+    <string name="common_see_all">Смотреть все</string>
+    <string name="common_cancel">Отмена</string>
+    <string name="common_done">Готово</string>
+    <string name="night_suffix">" / ночь"</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_search">Поиск</string>
+    <string name="nav_schedule">Брони</string>
+
+    <!-- Top bar -->
+    <string name="top_current_location">Текущее местоположение</string>
+    <string name="top_location_value">Уоллес, Австралия</string>
+    <string name="cd_notifications">Уведомления</string>
+    <string name="cd_log_out">Выйти</string>
+    <string name="cd_log_in">Войти</string>
+    <string name="cd_favorite">В избранное</string>
+    <string name="cd_filter">Фильтр</string>
+    <string name="cd_location">Местоположение</string>
+    <string name="cd_prev_month">Назад</string>
+    <string name="cd_next_month">Вперёд</string>
+
+    <!-- Login -->
+    <string name="login_title">С возвращением</string>
+    <string name="login_subtitle">Войдите, чтобы продолжить</string>
+    <string name="login_button">Войти</string>
+    <string name="login_to_register">Нет аккаунта? Создайте</string>
+
+    <!-- Register -->
+    <string name="register_title">Создать аккаунт</string>
+    <string name="register_subtitle">Присоединяйтесь, чтобы бронировать</string>
+    <string name="register_button">Создать аккаунт</string>
+    <string name="register_to_login">Уже есть аккаунт? Войти</string>
+
+    <!-- Form fields -->
+    <string name="field_email">Эл. почта</string>
+    <string name="field_password">Пароль</string>
+    <string name="field_password_min">Пароль (минимум 6 символов)</string>
+    <string name="field_full_name">Полное имя</string>
+
+    <!-- Auth errors -->
+    <string name="error_login_invalid">Неверная почта или пароль.</string>
+    <string name="error_login_failed">Не удалось войти (%1$d).</string>
+    <string name="error_network">Не удалось связаться с сервером. Проверьте соединение.</string>
+    <string name="error_enter_full_name">Введите ваше полное имя.</string>
+    <string name="error_email_taken">Эта почта уже может быть зарегистрирована.</string>
+    <string name="error_register_failed">Не удалось зарегистрироваться (%1$d).</string>
+    <string name="error_invalid_email">Введите корректную почту.</string>
+    <string name="error_password_min">Пароль должен быть не менее %1$d символов.</string>
+    <string name="error_enter_password">Введите пароль.</string>
+    <string name="error_offline_data">Нет связи с сервером. Показаны офлайн-данные.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_places_in">Где остановиться: %1$s</string>
+    <string name="dashboard_see_all_in">Все отели: %1$s</string>
+    <string name="toast_heart">Добавлено в избранное</string>
+    <string name="filter_hotels">Отели</string>
+    <string name="filter_condos">Кондо</string>
+    <string name="filter_houses">Дома</string>
+    <string name="filter_villas">Виллы</string>
+    <string name="filter_apartments">Апартаменты</string>
+    <string name="city_paris">Париж</string>
+    <string name="city_new_york">Нью-Йорк</string>
+    <string name="city_dubai">Дубай</string>
+    <string name="city_singapore">Сингапур</string>
+    <string name="city_tokyo">Токио</string>
+
+    <!-- Search -->
+    <string name="search_hint">Поиск</string>
+    <string name="search_recommended">Рекомендуем (%1$d)</string>
+    <string name="chip_all_hotel">Все отели</string>
+    <string name="chip_recommended">Рекомендуем</string>
+    <string name="chip_popular">Популярные</string>
+
+    <!-- Filter sheet -->
+    <string name="filter_title">Фильтр отелей</string>
+    <string name="filter_country">Страна</string>
+    <string name="filter_sort">Сортировка</string>
+    <string name="filter_price_range">Цена за ночь</string>
+    <string name="filter_star_rating">Звёзды</string>
+    <string name="filter_facilities">Удобства</string>
+    <string name="filter_accommodation">Тип жилья</string>
+    <string name="filter_reset">Сбросить</string>
+    <string name="filter_apply">Применить</string>
+    <string name="country_france">Франция</string>
+    <string name="country_italia">Италия</string>
+    <string name="country_turkey">Турция</string>
+    <string name="country_germany">Германия</string>
+    <string name="sort_popularity">По популярности</string>
+    <string name="sort_price_high">Сначала дорогие</string>
+    <string name="sort_price_low">Сначала дешёвые</string>
+    <string name="fac_wifi">Wi-Fi</string>
+    <string name="fac_pool">Бассейн</string>
+    <string name="fac_parking">Парковка</string>
+    <string name="fac_restaurant">Ресторан</string>
+    <string name="acc_hotels">Отели</string>
+    <string name="acc_resorts">Курорты</string>
+    <string name="acc_villas">Виллы</string>
+    <string name="acc_apartments">Апартаменты</string>
+
+    <!-- Detail -->
+    <string name="detail_top_title">Детали</string>
+    <string name="detail_not_found">Отель не найден.</string>
+    <string name="detail_details">Детали</string>
+    <string name="detail_description">Описание</string>
+    <string name="detail_read_more">Читать далее</string>
+    <string name="detail_read_less">Свернуть</string>
+    <string name="detail_preview">Фото</string>
+    <string name="detail_facilities">Удобства</string>
+    <string name="detail_no_amenities">Удобства не указаны.</string>
+    <string name="detail_reviews">Отзывы</string>
+    <string name="detail_write_review">Оставить отзыв</string>
+    <string name="detail_no_reviews">Отзывов пока нет. Будьте первым!</string>
+    <string name="detail_feature">Удобство</string>
+    <string name="detail_type_hotels">Отель</string>
+    <string name="detail_bedrooms">4 спальни</string>
+    <string name="detail_bathrooms">2 ванные</string>
+    <string name="detail_area">4000 кв. фт</string>
+    <string name="review_guest">Гость</string>
+    <string name="rating_out_of_10">%1$d/10</string>
+
+    <!-- Review dialog -->
+    <string name="review_dialog_title">Оставить отзыв</string>
+    <string name="review_rating_label">Оценка: %1$d / 10</string>
+    <string name="review_field_title">Заголовок</string>
+    <string name="review_field_comment">Комментарий (необязательно)</string>
+    <string name="review_submit">Отправить</string>
+    <string name="review_submitting">Отправка…</string>
+    <string name="error_review_title">Добавьте заголовок.</string>
+    <string name="error_review_submit">Не удалось отправить отзыв.</string>
+    <string name="error_review_network">Не удалось связаться с сервером.</string>
+
+    <!-- Booking -->
+    <string name="booking_confirmed_title">Бронирование подтверждено!</string>
+    <string name="booking_confirmed_sub">Оно появится в разделе «Брони».</string>
+    <string name="booking_details">Детали бронирования</string>
+    <string name="booking_choose_room">Выберите номер</string>
+    <string name="booking_no_rooms">Для этого объекта пока нет номеров.</string>
+    <string name="booking_total">Итого</string>
+    <string name="booking_confirm">Подтвердить бронирование</string>
+    <string name="booking_now">Забронировать</string>
+    <string name="room_default">Номер</string>
+    <string name="room_sleeps">Мест: %1$d</string>
+    <string name="price_per_night_amount">%1$s $ / ночь</string>
+    <string name="error_select_room">Выберите номер.</string>
+    <string name="error_checkout_after">Дата выезда должна быть позже даты заезда.</string>
+    <string name="error_booking_failed">Не удалось забронировать. Возможно, номер занят на эти даты.</string>
+
+    <!-- Booking selection card -->
+    <string name="select_dates">Выберите даты</string>
+    <string name="check_in">Заезд</string>
+    <string name="check_out">Выезд</string>
+    <string name="guests">Гости</string>
+    <string name="guests_count">Гостей: %1$d</string>
+
+    <!-- Schedule -->
+    <string name="schedule_top_title">Брони</string>
+    <string name="schedule_start_date">Дата заезда</string>
+    <string name="schedule_end_date">Дата выезда</string>
+    <string name="schedule_select">Выбрать</string>
+    <string name="schedule_my">Мои бронирования</string>
+    <string name="schedule_empty">У вас пока нет бронирований.</string>
+    <string name="schedule_booking_default">Бронирование</string>
+    <string name="error_load_bookings">Не удалось загрузить бронирования.</string>
+</resources>

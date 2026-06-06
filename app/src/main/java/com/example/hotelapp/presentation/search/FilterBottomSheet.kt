@@ -30,7 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.FilterState
 
 @Composable
@@ -53,7 +55,7 @@ fun FilterBottomSheet(
             .padding(16.dp)
     ) {
         Text(
-            "Filter Hotel",
+            stringResource(R.string.filter_title),
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -114,17 +116,23 @@ private fun CountrySection(
     selected: String?,
     onSelect: (String?) -> Unit
 ) {
-    SectionHeader("Country", "See All")
+    SectionHeader(stringResource(R.string.filter_country), stringResource(R.string.common_see_all))
 
+    val countries = listOf(
+        "France" to stringResource(R.string.country_france),
+        "Italia" to stringResource(R.string.country_italia),
+        "Turkey" to stringResource(R.string.country_turkey),
+        "Germany" to stringResource(R.string.country_germany)
+    )
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        listOf("France", "Italia", "Turkey", "Germany").forEach { country ->
+        countries.forEach { (value, label) ->
             FilterChip(
-                selected = country == selected,
-                onClick = { onSelect(if (selected == country) null else country) },
-                label = { Text(country) }
+                selected = value == selected,
+                onClick = { onSelect(if (selected == value) null else value) },
+                label = { Text(label) }
             )
         }
     }
@@ -137,14 +145,19 @@ private fun SortSection(
     selected: String?,
     onSelect: (String?) -> Unit
 ) {
-    SectionHeader("Sort Results")
+    SectionHeader(stringResource(R.string.filter_sort))
 
+    val sorts = listOf(
+        "Highest Popularity" to stringResource(R.string.sort_popularity),
+        "Highest Price" to stringResource(R.string.sort_price_high),
+        "Lowest Price" to stringResource(R.string.sort_price_low)
+    )
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        listOf("Highest Popularity", "Highest Price", "Lowest Price").forEach { filter ->
+        sorts.forEach { (value, label) ->
             FilterChip(
-                selected = filter == selected,
-                onClick = { onSelect(if (selected == filter) null else filter) },
-                label = { Text(filter) }
+                selected = value == selected,
+                onClick = { onSelect(if (selected == value) null else value) },
+                label = { Text(label) }
             )
         }
     }
@@ -157,7 +170,7 @@ private fun PriceRangeSection(
     range: ClosedFloatingPointRange<Float>,
     onRangeChange: (ClosedFloatingPointRange<Float>) -> Unit
 ) {
-    SectionHeader("Price Range Per Night")
+    SectionHeader(stringResource(R.string.filter_price_range))
 
     RangeSlider(
         value = range,
@@ -182,7 +195,7 @@ private fun StarRatingSection(
     selected: Int?,
     onSelect: (Int?) -> Unit
 ) {
-    SectionHeader("Star Rating")
+    SectionHeader(stringResource(R.string.filter_star_rating))
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         (5 downTo 1).forEach { star ->
@@ -207,9 +220,14 @@ private fun FacilitiesSection(
     selected: Set<String>,
     onToggle: (String, Boolean) -> Unit
 ) {
-    val facilities = listOf("Wifi", "Swimming Pool", "Parking", "Restaurant")
+    val facilities = listOf(
+        stringResource(R.string.fac_wifi),
+        stringResource(R.string.fac_pool),
+        stringResource(R.string.fac_parking),
+        stringResource(R.string.fac_restaurant)
+    )
 
-    SectionHeader("Facilities", "See All")
+    SectionHeader(stringResource(R.string.filter_facilities), stringResource(R.string.common_see_all))
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         facilities.forEach { facility ->
@@ -229,9 +247,14 @@ private fun AccommodationSection(
     selected: Set<String>,
     onToggle: (String, Boolean) -> Unit
 ) {
-    val accommodationTypes = listOf("Hotels", "Resorts", "Villas", "Apartments")
+    val accommodationTypes = listOf(
+        stringResource(R.string.acc_hotels),
+        stringResource(R.string.acc_resorts),
+        stringResource(R.string.acc_villas),
+        stringResource(R.string.acc_apartments)
+    )
 
-    SectionHeader("Accommodation Type", "See All")
+    SectionHeader(stringResource(R.string.filter_accommodation), stringResource(R.string.common_see_all))
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         accommodationTypes.forEach { type ->
@@ -259,10 +282,10 @@ private fun BottomActions(onReset: () -> Unit, onApply: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedButton(modifier = Modifier.weight(1f), onClick = onReset) {
-            Text("Reset")
+            Text(stringResource(R.string.filter_reset))
         }
         Button(modifier = Modifier.weight(1f), onClick = onApply) {
-            Text("Apply Filter")
+            Text(stringResource(R.string.filter_apply))
         }
     }
 }

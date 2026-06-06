@@ -33,8 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.hotelapp.R
 import java.time.LocalDate
 
 
@@ -82,7 +84,7 @@ fun BookingSelectionCard(
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
-                    text = "Select Dates",
+                    text = stringResource(R.string.select_dates),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -96,13 +98,13 @@ fun BookingSelectionCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 DateBox(
-                    title = "Check-in",
+                    title = stringResource(R.string.check_in),
                     value = checkInDate.toString(),
                     modifier = Modifier.weight(1f)
                 )
 
                 DateBox(
-                    title = "Check-out",
+                    title = stringResource(R.string.check_out),
                     value = checkOutDate.toString(),
                     modifier = Modifier.weight(1f)
                 )
@@ -138,12 +140,12 @@ fun BookingSelectionCard(
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Guests",
+                            text = stringResource(R.string.guests),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color.Gray
                         )
                         Text(
-                            text = "$guests guest${if (guests > 1) "s" else ""}",
+                            text = stringResource(R.string.guests_count, guests),
                             fontWeight = FontWeight.SemiBold
                         )
                     }

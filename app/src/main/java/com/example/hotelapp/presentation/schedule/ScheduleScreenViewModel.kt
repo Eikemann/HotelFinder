@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hotelapp.R
+import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.remote.api.OrderApi
 import com.example.hotelapp.data.remote.api.RetrofitHelper
 import com.example.hotelapp.domain.remote.model.booking.OrderResponse
@@ -32,7 +34,7 @@ class ScheduleScreenViewModel : ViewModel() {
                 orders = orderApi.getMyOrders()
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error loading my orders", e)
-                errorMessage = "Could not load your bookings."
+                errorMessage = AppRes.str(R.string.error_load_bookings)
             } finally {
                 isLoading = false
             }
