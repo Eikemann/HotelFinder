@@ -34,6 +34,7 @@ import com.example.hotelapp.R
 fun RegisterScreen(
     onRegistered: () -> Unit,
     onNavigateToLogin: () -> Unit,
+    onBrowseAsGuest: () -> Unit,
     viewModel: AuthViewModel = viewModel()
 ) {
     var fullName by remember { mutableStateOf("") }
@@ -128,6 +129,10 @@ fun RegisterScreen(
 
         TextButton(onClick = onNavigateToLogin, enabled = !viewModel.isLoading) {
             Text(stringResource(R.string.register_to_login))
+        }
+
+        TextButton(onClick = onBrowseAsGuest, enabled = !viewModel.isLoading) {
+            Text(stringResource(R.string.auth_browse_guest))
         }
     }
 }

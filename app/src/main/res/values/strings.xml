@@ -35,6 +35,7 @@
     <string name="register_subtitle">Join to start booking stays</string>
     <string name="register_button">Create account</string>
     <string name="register_to_login">Already have an account? Sign in</string>
+    <string name="auth_browse_guest">Browse hotels without signing in</string>
 
     <!-- Form fields -->
     <string name="field_email">Email</string>

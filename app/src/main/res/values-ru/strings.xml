@@ -35,6 +35,7 @@
     <string name="register_subtitle">Присоединяйтесь, чтобы бронировать</string>
     <string name="register_button">Создать аккаунт</string>
     <string name="register_to_login">Уже есть аккаунт? Войти</string>
+    <string name="auth_browse_guest">Смотреть отели без входа</string>
 
     <!-- Form fields -->
     <string name="field_email">Эл. почта</string>

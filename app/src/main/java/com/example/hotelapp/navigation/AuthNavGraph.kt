@@ -15,13 +15,15 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         composable(Route.Login.route) {
             LoginScreen(
                 onLoggedIn = { navController.toDashboard() },
-                onNavigateToRegister = { navController.navigate(Route.Register.route) }
+                onNavigateToRegister = { navController.navigate(Route.Register.route) },
+                onBrowseAsGuest = { navController.toDashboard() }
             )
         }
         composable(Route.Register.route) {
             RegisterScreen(
                 onRegistered = { navController.toDashboard() },
-                onNavigateToLogin = { navController.popBackStack() }
+                onNavigateToLogin = { navController.popBackStack() },
+                onBrowseAsGuest = { navController.toDashboard() }
             )
         }
     }
