@@ -24,8 +24,8 @@ import retrofit2.HttpException
 
 class DetailScreenViewModel : ViewModel() {
 
-    private val hotelApi = RetrofitHelper.getInstance().create(HotelApi::class.java)
-    private val reviewApi = RetrofitHelper.getInstance().create(ReviewApi::class.java)
+    private val hotelApi = RetrofitHelper.hotelApi
+    private val reviewApi = RetrofitHelper.reviewApi
 
     var hotel by mutableStateOf<Hotel?>(null)
         private set

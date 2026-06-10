@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 
 class SearchScreenViewModel : ViewModel() {
 
-    private val hotelApi = RetrofitHelper.getInstance().create(HotelApi::class.java)
+    private val hotelApi = RetrofitHelper.hotelApi
 
     var hotels by mutableStateOf<List<Hotel>>(emptyList())
         private set

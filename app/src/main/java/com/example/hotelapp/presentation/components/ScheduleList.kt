@@ -8,7 +8,7 @@ fun LazyListScope.scheduleList(
     scheduleList : List<Schedule>,
     onDelete: (Long) -> Unit
 ){
-    items(scheduleList){item ->
+    items(scheduleList, key = { it.id }){item ->
         HotelScheduleCard(
             schedule = item,
             onDelete = { onDelete(item.id) }

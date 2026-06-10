@@ -34,4 +34,12 @@ object RetrofitHelper {
     }
 
     fun getInstance(): Retrofit = retrofit
+
+    // Shared API instances — Retrofit proxies are created once and reused by
+    // every ViewModel instead of being rebuilt per screen.
+    val hotelApi: HotelApi by lazy { retrofit.create(HotelApi::class.java) }
+    val authApi: AuthApi by lazy { retrofit.create(AuthApi::class.java) }
+    val roomApi: RoomApi by lazy { retrofit.create(RoomApi::class.java) }
+    val orderApi: OrderApi by lazy { retrofit.create(OrderApi::class.java) }
+    val reviewApi: ReviewApi by lazy { retrofit.create(ReviewApi::class.java) }
 }

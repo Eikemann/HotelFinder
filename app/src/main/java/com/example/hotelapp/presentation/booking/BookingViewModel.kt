@@ -20,8 +20,8 @@ import java.time.LocalDate
 
 class BookingViewModel : ViewModel() {
 
-    private val roomApi = RetrofitHelper.getInstance().create(RoomApi::class.java)
-    private val orderApi = RetrofitHelper.getInstance().create(OrderApi::class.java)
+    private val roomApi = RetrofitHelper.roomApi
+    private val orderApi = RetrofitHelper.orderApi
 
     var rooms by mutableStateOf<List<RoomResponse>>(emptyList())
         private set

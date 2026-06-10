@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -19,8 +18,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Backend base URL. 10.0.2.2 is the host machine's loopback as seen from
-        // the Android emulator. For a physical device, use the host's LAN IP.
-        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/api/\"")
+        // the Android emulator. For a physical device, use the host's LAN IP. https://simple-service-production-6ae3.up.railway.app
+        buildConfigField("String", "BASE_URL", "\"https://simple-service-production-25bc.up.railway.app/api/\"")
     }
 
     buildTypes {
@@ -67,17 +66,13 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk)
 
     implementation(libs.coil.compose)
-    implementation(libs.compose.material3)
 
     implementation(libs.sheets.core)
     implementation(libs.sheets.calendar)
 
     implementation(libs.navigation.compose)
-    implementation(libs.accompanist.navigation.animation)
 
     implementation(libs.androidx.datastore.preferences)
-
-    implementation("io.coil-kt:coil-compose:2.6.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")

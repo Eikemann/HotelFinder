@@ -18,7 +18,7 @@ import retrofit2.HttpException
 
 class AuthViewModel : ViewModel() {
 
-    private val authApi = RetrofitHelper.getInstance().create(AuthApi::class.java)
+    private val authApi = RetrofitHelper.authApi
 
     var isLoading by mutableStateOf(false)
         private set

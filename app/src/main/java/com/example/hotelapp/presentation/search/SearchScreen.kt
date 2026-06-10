@@ -105,10 +105,13 @@ fun SearchScreen(
                 CircularProgressIndicator()
             }
         } else {
-            ResultHeader(viewModel.filteredHotels.size)
+            // filteredHotels is a computed property — read it once per composition.
+            val results = viewModel.filteredHotels
+
+            ResultHeader(results.size)
 
             LazyColumn {
-                items(viewModel.filteredHotels) { hotel ->
+                items(results, key = { it.id }) { hotel ->
                     HotelCard(
                         hotel = hotel,
                         onCardClick = {

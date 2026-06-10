@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class ScheduleScreenViewModel : ViewModel() {
 
-    private val orderApi = RetrofitHelper.getInstance().create(OrderApi::class.java)
+    private val orderApi = RetrofitHelper.orderApi
 
     var orders by mutableStateOf<List<OrderResponse>>(emptyList())
         private set

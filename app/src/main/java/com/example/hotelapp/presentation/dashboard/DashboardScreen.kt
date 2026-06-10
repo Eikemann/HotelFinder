@@ -189,7 +189,7 @@ private fun CarouselSection(
     onHotelCardClick: (String) -> Unit
 ) {
     LazyRow(modifier = Modifier.padding(end = 12.dp)) {
-        items(hotelList) { hotel ->
+        items(hotelList, key = { it.id }) { hotel ->
             CaruselHotelCard(
                 hotel = hotel,
                 onFavoriteClick = onRedHeartClick,

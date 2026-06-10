@@ -10,11 +10,9 @@ activityCompose = "1.12.1"
 composeBom = "2024.09.00"
 uiTextGoogleFonts = "1.10.0"
 desugar = "2.0.4"
-coil = "2.5.0"
-material3 = "1.2.1"
+coil = "2.6.0"
 sheets = "1.0.2"
 navigation = "2.7.7"
-accompanist = "0.34.0"
 datastore = "1.1.1"
 
 [libraries]
@@ -35,16 +33,13 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 sheets-core = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "sheets" }
 sheets-calendar = { module = "com.maxkeppeler.sheets-compose-dialogs:calendar", version.ref = "sheets" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.17" }
 
