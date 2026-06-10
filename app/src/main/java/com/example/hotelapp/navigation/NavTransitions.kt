@@ -47,4 +47,18 @@ object NavTransitions {
             targetOffsetX = { it / 3 },
             animationSpec = spec()
         ) + fadeOut(animationSpec = spec())
+
+    // Full-width pager-style slides, used between the bottom-nav tabs.
+
+    fun tabSlideInFromRight(): EnterTransition =
+        slideInHorizontally(initialOffsetX = { it }, animationSpec = spec())
+
+    fun tabSlideInFromLeft(): EnterTransition =
+        slideInHorizontally(initialOffsetX = { -it }, animationSpec = spec())
+
+    fun tabSlideOutToLeft(): ExitTransition =
+        slideOutHorizontally(targetOffsetX = { -it }, animationSpec = spec())
+
+    fun tabSlideOutToRight(): ExitTransition =
+        slideOutHorizontally(targetOffsetX = { it }, animationSpec = spec())
 }

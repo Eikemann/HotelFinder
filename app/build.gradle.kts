@@ -18,7 +18,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Backend base URL. 10.0.2.2 is the host machine's loopback as seen from
-        // the Android emulator. For a physical device, use the host's LAN IP. https://simple-service-production-6ae3.up.railway.app
+        // the Android emulator. For a physical device, use the host's LAN IP.
         buildConfigField("String", "BASE_URL", "\"https://simple-service-production-25bc.up.railway.app/api/\"")
     }
 
