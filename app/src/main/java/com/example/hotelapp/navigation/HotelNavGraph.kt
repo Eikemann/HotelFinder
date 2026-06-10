@@ -16,7 +16,11 @@ fun NavGraphBuilder.hotelNavGraph(navController: NavHostController) {
     ) {
         composable(
             route = Route.HotelDetail.route,
-            arguments = listOf(navArgument("hotelId") { nullable = false })
+            arguments = listOf(navArgument("hotelId") { nullable = false }),
+            enterTransition = { NavTransitions.slideInFromRight() },
+            exitTransition = { NavTransitions.slideOutToLeft() },
+            popEnterTransition = { NavTransitions.slideInFromLeft() },
+            popExitTransition = { NavTransitions.slideOutToRight() }
         ) { backStackEntry ->
             val hotelId = backStackEntry.arguments?.getString("hotelId").orEmpty()
             DetailScreen(navController = navController, hotelId = hotelId)

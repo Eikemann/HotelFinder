@@ -19,7 +19,13 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 onBrowseAsGuest = { navController.toDashboard() }
             )
         }
-        composable(Route.Register.route) {
+        composable(
+            route = Route.Register.route,
+            enterTransition = { NavTransitions.slideInFromRight() },
+            exitTransition = { NavTransitions.slideOutToLeft() },
+            popEnterTransition = { NavTransitions.slideInFromLeft() },
+            popExitTransition = { NavTransitions.slideOutToRight() }
+        ) {
             RegisterScreen(
                 onRegistered = { navController.toDashboard() },
                 onNavigateToLogin = { navController.popBackStack() },

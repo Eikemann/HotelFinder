@@ -13,6 +13,10 @@ fun SetupNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Route.Dashboard.route,
+        enterTransition = { NavTransitions.softFadeIn() },
+        exitTransition = { NavTransitions.softFadeOut() },
+        popEnterTransition = { NavTransitions.softFadeIn() },
+        popExitTransition = { NavTransitions.softFadeOut() },
     ) {
         authNavGraph(navController = navController)
         dashboardNavGraph(navController = navController)
