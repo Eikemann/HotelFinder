@@ -7,6 +7,7 @@ fun HotelResponseItem.toHotel(): Hotel {
     return Hotel(
         id = id,
         name = name,
+        city = city.orEmpty(),
         // Backend stores address parts separately; compose a display location.
         location = listOfNotNull(city, country)
             .filter { it.isNotBlank() }

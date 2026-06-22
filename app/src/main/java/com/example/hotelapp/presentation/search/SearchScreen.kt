@@ -42,13 +42,19 @@ import com.example.hotelapp.presentation.search.components.SearchBar
 @Composable
 fun SearchScreen(
     viewModel: SearchScreenViewModel = viewModel(),
-    navController: NavController
+    navController: NavController,
+    initialCity: String = ""
 ) {
     val allHotelsLabel = stringResource(R.string.chip_all_hotel)
     var selectedFilter by remember { mutableStateOf(allHotelsLabel) }
 
     LaunchedEffect(Unit) {
         viewModel.loadHotels()
+    }
+
+    // Restrict results to the city passed from a dashboard "See all" tap.
+    LaunchedEffect(initialCity) {
+        viewModel.setCityFilter(initialCity)
     }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)

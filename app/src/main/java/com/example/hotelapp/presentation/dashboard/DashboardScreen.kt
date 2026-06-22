@@ -72,12 +72,16 @@ fun DashboardScreen(
         Filters(id = 4, filterName = stringResource(R.string.filter_villas), filterIcon = R.drawable.icon),
         Filters(id = 5, filterName = stringResource(R.string.filter_apartments), filterIcon = R.drawable.icon)
     )
-    val cities = listOf(
-        stringResource(R.string.city_paris),
-        stringResource(R.string.city_new_york),
-        stringResource(R.string.city_dubai),
-        stringResource(R.string.city_singapore),
-        stringResource(R.string.city_tokyo)
+    // Maps a backend city name to its localized display label. Cities without an
+    // entry fall back to the raw name returned by the API.
+    val cityLabels = mapOf(
+        "Antalya" to stringResource(R.string.city_antalya),
+        "Istanbul" to stringResource(R.string.city_istanbul),
+        "Dubai" to stringResource(R.string.city_dubai),
+        "Hurghada" to stringResource(R.string.city_hurghada),
+        "Bangkok" to stringResource(R.string.city_bangkok),
+        "Tokyo" to stringResource(R.string.city_tokyo),
+        "Seoul" to stringResource(R.string.city_seoul),
     )
 
     LaunchedEffect(Unit) {
@@ -118,7 +122,9 @@ fun DashboardScreen(
             )
         }
 
-        items(cities) { location ->
+        items(viewModel.hotelsByCity, key = { (city, _) -> city }) { (city, cityHotels) ->
+            // Display the localized label, but pass the backend city name to search.
+            val label = cityLabels[city] ?: city
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -127,7 +133,7 @@ fun DashboardScreen(
                     .fillMaxWidth()
             ) {
                 Text(
-                    stringResource(R.string.dashboard_places_in, location),
+                    stringResource(R.string.dashboard_places_in, label),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 16.sp,
                 )
@@ -136,19 +142,13 @@ fun DashboardScreen(
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     modifier = Modifier.clickable {
-                        Toast
-                            .makeText(
-                                context,
-                                context.getString(R.string.dashboard_see_all_in, location),
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        navController.navigate(Route.Search.createWithCity(city))
                     }
                 )
             }
 
             CarouselSection(
-                hotelList = viewModel.hotels,
+                hotelList = cityHotels,
                 onRedHeartClick = {
                     Toast.makeText(context, context.getString(R.string.toast_heart), Toast.LENGTH_SHORT).show()
                 },

@@ -18,7 +18,7 @@ sealed class BottomNavItem(
         labelRes = R.string.nav_home
     )
     object Search : BottomNavItem(
-        route = Route.Search.route,
+        route = Route.Search.base,
         icon = Icons.Default.Search,
         labelRes = R.string.nav_search
     )

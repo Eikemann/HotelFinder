@@ -26,7 +26,8 @@ fun MainScreen(navController: NavController, content: @Composable () -> Unit) {
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    // Strip optional query args (e.g. "search?city=Dubai") so tab matching still works.
+    val currentRoute = navBackStackEntry?.destination?.route?.substringBefore("?")
     val scope = rememberCoroutineScope()
 
     val items = BottomNavItem.items

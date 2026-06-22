@@ -21,8 +21,29 @@ class DashboardScreenViewModel : ViewModel() {
 
     private val hotelApi = RetrofitHelper.hotelApi
 
+    companion object {
+        // Preferred carousel order — the cities Russian tourists most travel to.
+        // Values match the backend `city` field exactly.
+        val CITY_ORDER = listOf(
+            "Antalya", "Istanbul", "Dubai", "Hurghada", "Bangkok", "Tokyo", "Seoul"
+        )
+    }
+
     var hotels by mutableStateOf<List<Hotel>>(emptyList())
         private set
+
+    /**
+     * Hotels grouped into one carousel per city, ordered by [CITY_ORDER].
+     * Cities not in the preferred order (and blanks) fall to the end.
+     */
+    val hotelsByCity: List<Pair<String, List<Hotel>>>
+        get() = hotels
+            .filter { it.city.isNotBlank() }
+            .groupBy { it.city }
+            .toList()
+            .sortedBy { (city, _) ->
+                CITY_ORDER.indexOf(city).takeIf { it >= 0 } ?: Int.MAX_VALUE
+            }
 
     var isLoading by mutableStateOf(false)
         private set

@@ -22,7 +22,9 @@ fun BottomNavigationBar(
     NavigationBar {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        // Strip optional query args (e.g. "search?city=Dubai") so the Search tab
+        // still shows as selected when opened with a city filter.
+        val currentRoute = navBackStackEntry?.destination?.route?.substringBefore("?")
 
         items.forEach { item ->
             NavigationBarItem(

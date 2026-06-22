@@ -2,7 +2,6 @@ package com.example.hotelapp.navigation
 
 sealed class Route {
 
-    // Auth flow (GRAPH + DESTINATIONS)
     object Auth : Route() {
         const val route = "auth"
     }
@@ -15,18 +14,20 @@ sealed class Route {
         const val route = "register"
     }
 
-    // Root
     object Dashboard : Route() {
         const val route = "dashboard"
     }
 
-    // Dashboard screens
     object Home : Route() {
         const val route = "home"
     }
 
     object Search : Route() {
-        const val route = "search"
+        // Optional `city` query arg: empty means "show all hotels".
+        const val base = "search"
+        const val ARG_CITY = "city"
+        const val route = "search?city={city}"
+        fun createWithCity(city: String) = "search?city=$city"
     }
 
     object Schedule : Route() {
@@ -37,7 +38,6 @@ sealed class Route {
         const val route = "profile"
     }
 
-    // Detail flow (GRAPH + DESTINATIONS)
     object DetailGraph : Route() {
         const val route = "detail"
     }

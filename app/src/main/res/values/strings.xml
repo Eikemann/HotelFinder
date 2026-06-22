@@ -65,11 +65,13 @@
     <string name="filter_houses">Houses</string>
     <string name="filter_villas">Villas</string>
     <string name="filter_apartments">Apartments</string>
-    <string name="city_paris">Paris</string>
-    <string name="city_new_york">New York</string>
+    <string name="city_antalya">Antalya</string>
+    <string name="city_istanbul">Istanbul</string>
     <string name="city_dubai">Dubai</string>
-    <string name="city_singapore">Singapore</string>
+    <string name="city_hurghada">Hurghada</string>
+    <string name="city_bangkok">Bangkok</string>
     <string name="city_tokyo">Tokyo</string>
+    <string name="city_seoul">Seoul</string>
 
     <!-- Search -->
     <string name="search_hint">Search</string>

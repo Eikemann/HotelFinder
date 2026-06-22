@@ -34,12 +34,20 @@ class SearchScreenViewModel : ViewModel() {
     var searchQuery by mutableStateOf("")
         private set
 
+    // Set when arriving from a dashboard "See all" — restricts results to one city.
+    var cityFilter by mutableStateOf("")
+        private set
+
     var filterState by mutableStateOf(FilterState())
         private set
 
     val filteredHotels: List<Hotel>
         get() {
             var result = hotels
+
+            if (cityFilter.isNotBlank()) {
+                result = result.filter { it.city.equals(cityFilter, ignoreCase = true) }
+            }
 
             if (searchQuery.isNotBlank()) {
                 result = result.filter {
@@ -76,6 +84,10 @@ class SearchScreenViewModel : ViewModel() {
 
     fun onSearchQueryChange(query: String) {
         searchQuery = query
+    }
+
+    fun setCityFilter(city: String) {
+        cityFilter = city
     }
 
     fun applyFilter(newFilter: FilterState) {

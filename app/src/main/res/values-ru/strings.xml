@@ -65,11 +65,13 @@
     <string name="filter_houses">Дома</string>
     <string name="filter_villas">Виллы</string>
     <string name="filter_apartments">Апартаменты</string>
-    <string name="city_paris">Париж</string>
-    <string name="city_new_york">Нью-Йорк</string>
+    <string name="city_antalya">Анталья</string>
+    <string name="city_istanbul">Стамбул</string>
     <string name="city_dubai">Дубай</string>
-    <string name="city_singapore">Сингапур</string>
+    <string name="city_hurghada">Хургада</string>
+    <string name="city_bangkok">Бангкок</string>
     <string name="city_tokyo">Токио</string>
+    <string name="city_seoul">Сеул</string>
 
     <!-- Search -->
     <string name="search_hint">Поиск</string>

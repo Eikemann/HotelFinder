@@ -3,6 +3,7 @@ package com.example.hotelapp.domain.local.model
 data class Hotel(
     val id : Int,
     val name: String,
+    val city: String,
     val location: String,
     val description : String,
     val pricePerNight: String,
