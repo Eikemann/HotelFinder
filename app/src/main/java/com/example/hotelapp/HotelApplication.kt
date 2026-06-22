@@ -7,12 +7,17 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.auth.TokenManager
+import com.example.hotelapp.data.remote.api.RetrofitHelper
 
 class HotelApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
         AppRes.appContext = this
         TokenManager.init(this)
+        // Pick the reachable backend (local Docker, else hosted Railway) before the
+        // first API call. The probe does socket I/O so it runs on a background
+        // thread; we join briefly so the chosen URL is ready when screens load.
+        Thread { RetrofitHelper.resolveBaseUrl() }.apply { start(); join(1500) }
     }
 
     // App-wide Coil loader: soft crossfade on image load + bounded caches so

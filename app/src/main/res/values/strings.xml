@@ -24,6 +24,7 @@
     <string name="cd_location">Location</string>
     <string name="cd_prev_month">Previous</string>
     <string name="cd_next_month">Next</string>
+    <string name="cd_back">Back</string>
 
     <!-- Login -->
     <string name="login_title">Welcome back</string>

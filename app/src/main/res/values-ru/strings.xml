@@ -24,6 +24,7 @@
     <string name="cd_location">Местоположение</string>
     <string name="cd_prev_month">Назад</string>
     <string name="cd_next_month">Вперёд</string>
+    <string name="cd_back">Назад</string>
 
     <!-- Login -->
     <string name="login_title">С возвращением</string>

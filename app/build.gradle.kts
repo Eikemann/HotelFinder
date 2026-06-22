@@ -17,11 +17,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Backend base URL. 10.0.2.2 is the host machine's loopback as seen from
-        // the Android emulator, so this targets the local Docker backend on :8080.
-        // For a physical device, use the host's LAN IP. Railway fallback (stale NYC
-        // data): https://simple-service-production-25bc.up.railway.app/api/
-        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/api/\"")
+        // Backend candidates. RetrofitHelper probes LOCAL first (emulator loopback
+        // → host Docker backend on :8080) and falls back to REMOTE (hosted Railway,
+        // stale NYC data) if the local one is unreachable. For a physical device,
+        // change LOCAL to the host's LAN IP.
+        buildConfigField("String", "LOCAL_BASE_URL", "\"http://10.0.2.2:8080/api/\"")
+        buildConfigField("String", "REMOTE_BASE_URL", "\"https://simple-service-production-25bc.up.railway.app/api/\"")
     }
 
     buildTypes {
