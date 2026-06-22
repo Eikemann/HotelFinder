@@ -171,6 +171,7 @@
     <string name="schedule_booking_default">Бронирование</string>
     <string name="error_load_bookings">Не удалось загрузить бронирования.</string>
     <string name="error_delete_booking">Не удалось удалить бронирование.</string>
+    <string name="offline_mode">Офлайн-режим — показаны сохранённые бронирования</string>
     <string name="booking_delete">Удалить бронирование</string>
     <string name="booking_delete_confirm_title">Удалить бронирование?</string>
     <string name="booking_delete_confirm_msg">Бронирование будет удалено без возможности восстановления.</string>

@@ -93,6 +93,10 @@ fun ScheduleScreen(
 
         item { MyScheduleRow() }
 
+        if (viewModel.isOffline) {
+            item { OfflineBanner() }
+        }
+
         when {
             viewModel.isLoading -> item {
                 Box(
@@ -192,6 +196,19 @@ private fun DatePickerRow(
         DateButton(label = stringResource(R.string.schedule_start_date), date = startDate, endPadding = 46)
         DateButton(label = stringResource(R.string.schedule_end_date), date = endDate, endPadding = 55)
     }
+}
+
+/** Small red notice shown when bookings are served from the local cache. */
+@Composable
+private fun OfflineBanner() {
+    Text(
+        text = stringResource(R.string.offline_mode),
+        color = MaterialTheme.colorScheme.error,
+        fontSize = 12.sp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 4.dp)
+    )
 }
 
 @Composable
