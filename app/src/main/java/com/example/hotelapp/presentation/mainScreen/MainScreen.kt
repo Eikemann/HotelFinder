@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hotelapp.data.auth.TokenManager
-import com.example.hotelapp.data.local.OrdersCache
 import com.example.hotelapp.navigation.BottomNavItem
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.components.BottomNavigationBar
@@ -40,11 +39,7 @@ fun MainScreen(navController: NavController, content: @Composable () -> Unit) {
         if (isLoggedIn) {
             // Log out but stay browsing as a guest.
             TokenManager.clearCache()
-            scope.launch {
-                TokenManager.clear()
-                // Drop cached bookings so the next account doesn't see them offline.
-                OrdersCache.clear()
-            }
+            scope.launch { TokenManager.clear() }
             navController.navigate(Route.Dashboard.route) {
                 popUpTo(Route.Dashboard.route) { inclusive = true }
                 launchSingleTop = true
