@@ -51,7 +51,7 @@ fun BookingSelectionCard(
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier.fillMaxWidth()
@@ -68,7 +68,7 @@ fun BookingSelectionCard(
                     modifier = Modifier
                         .size(36.dp)
                         .background(
-                            Color(0xFFE8ECFF),
+                            MaterialTheme.colorScheme.primaryContainer,
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -76,7 +76,7 @@ fun BookingSelectionCard(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = null,
-                        tint = Color(0xFF5456E0),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -135,14 +135,14 @@ fun BookingSelectionCard(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = null,
-                        tint = Color.Gray
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
                             text = stringResource(R.string.guests),
                             style = MaterialTheme.typography.labelMedium,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = stringResource(R.string.guests_count, guests),
@@ -172,7 +172,7 @@ private fun DateBox(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = Color(0xFFE0E0E0),
+                color = MaterialTheme.colorScheme.outlineVariant,
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(12.dp)
@@ -180,7 +180,7 @@ private fun DateBox(
         Text(
             text = title,
             style = MaterialTheme.typography.labelSmall,
-            color = Color.Gray
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -204,7 +204,7 @@ fun GuestCounter(
             enabled = count > 1,
             modifier = Modifier
                 .size(36.dp)
-                .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
         ) {
             Text("-")
         }
@@ -222,7 +222,7 @@ fun GuestCounter(
             onClick = onIncrement,
             modifier = Modifier
                 .size(36.dp)
-                .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
         ) {
             Text("+")
         }

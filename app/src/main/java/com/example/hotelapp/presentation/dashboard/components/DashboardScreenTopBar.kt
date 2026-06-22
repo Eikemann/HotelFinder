@@ -13,6 +13,7 @@ import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,7 +45,7 @@ fun DashboardScreenTopBar(
                 } else {
                     stringResource(R.string.greeting_welcome)
                 },
-                color = Color(0xFF939393),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(bottom = 6.dp)
             )
@@ -54,7 +55,7 @@ fun DashboardScreenTopBar(
                 } else {
                     stringResource(R.string.greeting_guest)
                 },
-                color = Color(0xFF0F0F0F),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
             )

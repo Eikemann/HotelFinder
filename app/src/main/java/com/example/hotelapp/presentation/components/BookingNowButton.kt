@@ -63,7 +63,7 @@ fun BookingNowButton(
                     modifier = Modifier.fillMaxWidth().padding(start = 20.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = Color.White
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     elevation = ButtonDefaults.buttonElevation(
                         defaultElevation = 4.dp, pressedElevation = 2.dp

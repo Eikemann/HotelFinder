@@ -53,7 +53,7 @@ fun FullCalendar(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White, RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest, RoundedCornerShape(16.dp))
             .padding(16.dp)
     ) {
         CalendarHeader(
@@ -130,7 +130,7 @@ private fun DaysOfWeekRow() {
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.Gray
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -153,7 +153,7 @@ fun CalendarDay(
             .aspectRatio(1f)
             .clip(CircleShape)
             .background(
-                if (isSelected) Color(0xFF5456E0) else Color.Transparent
+                if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
             )
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -161,9 +161,9 @@ fun CalendarDay(
         Text(
             text = date.dayOfMonth.toString(),
             color = when {
-                isSelected -> Color.White
-                isCurrentMonth -> Color.Black
-                else -> Color.LightGray
+                isSelected -> MaterialTheme.colorScheme.onPrimary
+                isCurrentMonth -> MaterialTheme.colorScheme.onSurface
+                else -> MaterialTheme.colorScheme.outline
             },
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
         )

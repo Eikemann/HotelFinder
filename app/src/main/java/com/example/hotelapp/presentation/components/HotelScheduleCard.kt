@@ -99,7 +99,7 @@ fun HotelScheduleCard(
                     ) {
                         Text(
                             schedule.hotelName,
-                            color = Color(0xFF0F0F0F),
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontSize = 14.sp,
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
@@ -113,7 +113,7 @@ fun HotelScheduleCard(
                             )
                             Text(
                                 text = schedule.checkInDate,
-                                color = Color(0xFF939393),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 fontSize = 12.sp,
                             )
                         }
@@ -121,11 +121,11 @@ fun HotelScheduleCard(
                     Row {
                         Text(
                             text = schedule.pricePerNight,
-                            color = Color(0xFF4C4DDC),
+                            color = MaterialTheme.colorScheme.primary,
                         )
                         Text(
                             text = stringResource(R.string.night_suffix),
-                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }

@@ -1,5 +1,6 @@
 package com.example.hotelapp.ui.theme
 import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
@@ -252,11 +253,9 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun AppTheme(
-    // The UI is designed for a light palette (light card surfaces, dark text).
-    // Force light so the app never renders the broken dark-on-dark combinations
-    // that appear when the device is in dark mode. Flip back to
-    // isSystemInDarkTheme() once every screen uses theme color roles.
-    darkTheme: Boolean = false,
+    // Every screen now uses theme color roles, so the app renders correctly in
+    // both light and dark. Follow the system setting.
+    darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable() () -> Unit

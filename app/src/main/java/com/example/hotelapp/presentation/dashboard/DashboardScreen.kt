@@ -235,7 +235,7 @@ private fun CaruselHotelCard(
                         .padding(8.dp)
                         .size(28.dp)
                         .align(Alignment.TopEnd)
-                        .background(Color.White, CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceContainerLowest, CircleShape)
                         .clickable { onFavoriteClick() },
                     contentAlignment = Alignment.Center
                 ) {

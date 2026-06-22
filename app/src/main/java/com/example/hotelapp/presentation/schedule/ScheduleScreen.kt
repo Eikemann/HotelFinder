@@ -156,7 +156,7 @@ private fun DatePickerRow(
         Column {
             Text(
                 label,
-                color = Color(0xFF1E1E1E),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(bottom = 8.dp, end = endPadding.dp)
             )
@@ -166,14 +166,14 @@ private fun DatePickerRow(
                 colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent),
                 contentPadding = PaddingValues(),
                 modifier = Modifier
-                    .border(width = 1.dp, color = Color(0xFFD9D9D9), shape = RoundedCornerShape(8.dp))
+                    .border(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant, shape = RoundedCornerShape(8.dp))
                     .clip(shape = RoundedCornerShape(8.dp))
-                    .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(8.dp))
+                    .background(color = MaterialTheme.colorScheme.surfaceContainerLowest, shape = RoundedCornerShape(8.dp))
             ) {
                 Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)) {
                     Text(
                         text = date?.format(formatter) ?: stringResource(R.string.schedule_select),
-                        color = Color(0xFF1E1E1E),
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(end = 16.dp)
                     )
@@ -205,12 +205,12 @@ private fun MyScheduleRow(modifier: Modifier = Modifier) {
     ) {
         Text(
             stringResource(R.string.schedule_my),
-            color = Color(0xFF0F0F0F),
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 16.sp,
         )
         Text(
             stringResource(R.string.common_see_all),
-            color = Color(0xFF4C4DDC),
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 14.sp,
         )
     }
