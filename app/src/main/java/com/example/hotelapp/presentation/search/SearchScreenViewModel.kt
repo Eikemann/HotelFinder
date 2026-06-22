@@ -86,7 +86,7 @@ class SearchScreenViewModel : ViewModel() {
         searchQuery = query
     }
 
-    fun setCityFilter(city: String) {
+    fun applyCityFilter(city: String) {
         cityFilter = city
     }
 

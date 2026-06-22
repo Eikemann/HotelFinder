@@ -54,7 +54,7 @@ fun SearchScreen(
 
     // Restrict results to the city passed from a dashboard "See all" tap.
     LaunchedEffect(initialCity) {
-        viewModel.setCityFilter(initialCity)
+        viewModel.applyCityFilter(initialCity)
     }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
