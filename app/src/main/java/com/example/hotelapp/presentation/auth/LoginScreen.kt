@@ -70,6 +70,7 @@ fun LoginScreen(
             label = { Text(stringResource(R.string.field_email)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            colors = authFieldColors(),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -82,6 +83,7 @@ fun LoginScreen(
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            colors = authFieldColors(),
             modifier = Modifier.fillMaxWidth()
         )
 

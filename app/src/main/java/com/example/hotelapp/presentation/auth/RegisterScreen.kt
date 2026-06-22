@@ -70,6 +70,7 @@ fun RegisterScreen(
             onValueChange = { fullName = it; viewModel.consumeError() },
             label = { Text(stringResource(R.string.field_full_name)) },
             singleLine = true,
+            colors = authFieldColors(),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -81,6 +82,7 @@ fun RegisterScreen(
             label = { Text(stringResource(R.string.field_email)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            colors = authFieldColors(),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -93,6 +95,7 @@ fun RegisterScreen(
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            colors = authFieldColors(),
             modifier = Modifier.fillMaxWidth()
         )
 

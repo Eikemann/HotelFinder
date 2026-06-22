@@ -2,12 +2,10 @@ package com.example.hotelapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Brand accent is indigo (the color the screens were designed around). The rest
-// of the palette is the generated Material neutral scheme.
-val primaryLight = Color(0xFF4C4DDC)
+val primaryLight = Color(0xFF4C662B)
 val onPrimaryLight = Color(0xFFFFFFFF)
-val primaryContainerLight = Color(0xFFE8ECFF)
-val onPrimaryContainerLight = Color(0xFF1B1B8F)
+val primaryContainerLight = Color(0xFFCDEDA3)
+val onPrimaryContainerLight = Color(0xFF354E16)
 val secondaryLight = Color(0xFF586249)
 val onSecondaryLight = Color(0xFFFFFFFF)
 val secondaryContainerLight = Color(0xFFDCE7C8)
@@ -112,10 +110,10 @@ val surfaceContainerLightHighContrast = Color(0xFFE2E3D8)
 val surfaceContainerHighLightHighContrast = Color(0xFFD4D5CA)
 val surfaceContainerHighestLightHighContrast = Color(0xFFC6C7BD)
 
-val primaryDark = Color(0xFFBEC2FF)
-val onPrimaryDark = Color(0xFF1A1B8C)
-val primaryContainerDark = Color(0xFF3334C4)
-val onPrimaryContainerDark = Color(0xFFE0E0FF)
+val primaryDark = Color(0xFFB1D18A)
+val onPrimaryDark = Color(0xFF1F3701)
+val primaryContainerDark = Color(0xFF354E16)
+val onPrimaryContainerDark = Color(0xFFCDEDA3)
 val secondaryDark = Color(0xFFBFCBAD)
 val onSecondaryDark = Color(0xFF2A331E)
 val secondaryContainerDark = Color(0xFF404A33)
