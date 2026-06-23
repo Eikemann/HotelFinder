@@ -56,6 +56,7 @@
     <string name="error_password_min">Password must be at least %1$d characters.</string>
     <string name="error_enter_password">Please enter your password.</string>
     <string name="error_offline_data">Could not connect to server. Showing offline data.</string>
+    <string name="offline_mode">Offline — showing saved bookings.</string>
 
     <!-- Dashboard -->
     <string name="dashboard_places_in">Places to stay in %1$s</string>

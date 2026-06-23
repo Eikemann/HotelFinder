@@ -56,6 +56,7 @@
     <string name="error_password_min">Пароль должен быть не менее %1$d символов.</string>
     <string name="error_enter_password">Введите пароль.</string>
     <string name="error_offline_data">Нет связи с сервером. Показаны офлайн-данные.</string>
+    <string name="offline_mode">Офлайн — показаны сохранённые брони.</string>
 
     <!-- Dashboard -->
     <string name="dashboard_places_in">Где остановиться: %1$s</string>

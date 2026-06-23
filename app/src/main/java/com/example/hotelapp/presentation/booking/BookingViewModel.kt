@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotelapp.R
 import com.example.hotelapp.data.AppRes
+import com.example.hotelapp.data.local.OrdersCache
 import com.example.hotelapp.data.remote.api.OrderApi
 import com.example.hotelapp.data.remote.api.RetrofitHelper
 import com.example.hotelapp.data.remote.api.RoomApi
@@ -85,6 +86,11 @@ class BookingViewModel : ViewModel() {
                     )
                 )
                 bookingConfirmed = true
+                // Refresh the local cache while we're still online so this booking
+                // is shown even if the connection drops before the schedule screen
+                // is next opened. Best-effort: never fail the booking over this.
+                runCatching { OrdersCache.save(orderApi.getMyOrders()) }
+                    .onFailure { Log.w("HotelApp", "Could not refresh orders cache after booking", it) }
             } catch (e: HttpException) {
                 errorMessage = e.serverMessage()
                     ?: AppRes.str(R.string.error_booking_failed)
