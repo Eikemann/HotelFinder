@@ -141,7 +141,10 @@ private fun OrderResponse.toSchedule(): Schedule {
         pricePerNight = totalAmount?.let { "$" + "%.2f".format(it) } ?: "",
         checkInDate = dateRange,
         imageRes = R.drawable.hotelimage,
-        imageUrl = propertyImageUrl
+        imageUrl = propertyImageUrl,
+        status = orderStatus,
+        checkIn = checkInDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() },
+        checkOut = checkOutDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
     )
 }
 

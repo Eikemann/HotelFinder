@@ -1,6 +1,7 @@
 package com.example.hotelapp.presentation.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -104,6 +105,17 @@ fun HotelScheduleCard(
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                         )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(bottom = 6.dp)
+                        ) {
+                            StatusBadge(status = schedule.status)
+                            TimelineLabel(
+                                timeline = timelineOf(schedule.checkIn, schedule.checkOut),
+                                status = schedule.status
+                            )
+                        }
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
