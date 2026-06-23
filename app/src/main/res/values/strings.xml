@@ -149,6 +149,8 @@
     <string name="booking_choose_room">Choose a room</string>
     <string name="booking_no_rooms">No rooms are available for this property yet.</string>
     <string name="booking_total">Total</string>
+    <string name="booking_nights">%1$d night(s)</string>
+    <string name="booking_pick_dates">Pick a check-out after the check-in date.</string>
     <string name="booking_confirm">Confirm Booking</string>
     <string name="booking_now">Booking Now</string>
     <string name="room_default">Room</string>

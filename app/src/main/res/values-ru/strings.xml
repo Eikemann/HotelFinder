@@ -149,6 +149,8 @@
     <string name="booking_choose_room">Выберите номер</string>
     <string name="booking_no_rooms">Для этого объекта пока нет номеров.</string>
     <string name="booking_total">Итого</string>
+    <string name="booking_nights">Ночей: %1$d</string>
+    <string name="booking_pick_dates">Выберите дату выезда позже даты заезда.</string>
     <string name="booking_confirm">Подтвердить бронирование</string>
     <string name="booking_now">Забронировать</string>
     <string name="room_default">Номер</string>

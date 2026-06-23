@@ -38,7 +38,9 @@ import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarTimeline
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,9 +57,16 @@ fun BookingBottomSheet(
     var checkInDate by remember { mutableStateOf(LocalDate.now()) }
     var checkOutDate by remember { mutableStateOf(LocalDate.now().plusDays(1)) }
 
+    val nights = ChronoUnit.DAYS.between(checkInDate, checkOutDate)
+
     CalendarDialog(
         state = calendarState,
-        config = CalendarConfig(monthSelection = true, yearSelection = true),
+        config = CalendarConfig(
+            monthSelection = true,
+            yearSelection = true,
+            // Past dates can't be selected for a check-in/out.
+            disabledTimeline = CalendarTimeline.PAST
+        ),
         selection = CalendarSelection.Period(
             onSelectRange = { startDate, endDate ->
                 checkInDate = startDate
@@ -124,6 +133,32 @@ fun BookingBottomSheet(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        if (nights > 0) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.booking_nights, nights),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                viewModel.selectedRoom?.pricePerNight?.let { perNight ->
+                    Text(
+                        text = stringResource(R.string.price_per_night_amount, "%.0f".format(perNight)),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+        } else {
+            Text(
+                text = stringResource(R.string.booking_pick_dates),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
         viewModel.nightlyTotal(checkInDate, checkOutDate)?.let { total ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -150,7 +185,7 @@ fun BookingBottomSheet(
 
         Button(
             onClick = { viewModel.confirmBooking(propertyId.toLong(), checkInDate, checkOutDate) },
-            enabled = !viewModel.isSubmitting && viewModel.selectedRoom != null,
+            enabled = !viewModel.isSubmitting && viewModel.selectedRoom != null && nights > 0,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
