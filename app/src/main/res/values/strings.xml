@@ -103,10 +103,12 @@
     <string name="fac_pool">Swimming Pool</string>
     <string name="fac_parking">Parking</string>
     <string name="fac_restaurant">Restaurant</string>
+    <string name="fac_breakfast">Breakfast</string>
     <string name="acc_hotels">Hotels</string>
     <string name="acc_resorts">Resorts</string>
     <string name="acc_villas">Villas</string>
     <string name="acc_apartments">Apartments</string>
+    <string name="acc_houses">Houses</string>
 
     <!-- Detail -->
     <string name="detail_top_title">Detail</string>

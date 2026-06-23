@@ -35,9 +35,15 @@ import androidx.compose.ui.unit.dp
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.FilterState
 
+/** Pairs a facility filter keyword (matched against amenity text) with its display label. */
+private data class FacilityOption(val keyword: String, val label: String)
+
 @Composable
 fun FilterBottomSheet(
     currentFilter: FilterState = FilterState(),
+    countries: List<String> = emptyList(),
+    accommodationTypes: List<String> = emptyList(),
+    priceCeiling: Float = 1000f,
     onApply: (FilterState) -> Unit,
     onReset: () -> Unit
 ) {
@@ -63,6 +69,7 @@ fun FilterBottomSheet(
         Spacer(Modifier.height(16.dp))
 
         CountrySection(
+            countries = countries,
             selected = selectedCountry,
             onSelect = { selectedCountry = it }
         )
@@ -72,6 +79,7 @@ fun FilterBottomSheet(
         )
         PriceRangeSection(
             range = priceRange,
+            ceiling = priceCeiling,
             onRangeChange = { priceRange = it }
         )
         StarRatingSection(
@@ -80,11 +88,12 @@ fun FilterBottomSheet(
         )
         FacilitiesSection(
             selected = selectedFacilities,
-            onToggle = { facility, checked ->
-                selectedFacilities = if (checked) selectedFacilities + facility else selectedFacilities - facility
+            onToggle = { keyword, checked ->
+                selectedFacilities = if (checked) selectedFacilities + keyword else selectedFacilities - keyword
             }
         )
         AccommodationSection(
+            types = accommodationTypes,
             selected = selectedAccommodationTypes,
             onToggle = { type, checked ->
                 selectedAccommodationTypes = if (checked) selectedAccommodationTypes + type else selectedAccommodationTypes - type
@@ -113,26 +122,23 @@ fun FilterBottomSheet(
 
 @Composable
 private fun CountrySection(
+    countries: List<String>,
     selected: String?,
     onSelect: (String?) -> Unit
 ) {
-    SectionHeader(stringResource(R.string.filter_country), stringResource(R.string.common_see_all))
+    if (countries.isEmpty()) return
 
-    val countries = listOf(
-        "France" to stringResource(R.string.country_france),
-        "Italia" to stringResource(R.string.country_italia),
-        "Turkey" to stringResource(R.string.country_turkey),
-        "Germany" to stringResource(R.string.country_germany)
-    )
+    SectionHeader(stringResource(R.string.filter_country))
+
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        countries.forEach { (value, label) ->
+        countries.forEach { country ->
             FilterChip(
-                selected = value == selected,
-                onClick = { onSelect(if (selected == value) null else value) },
-                label = { Text(label) }
+                selected = country == selected,
+                onClick = { onSelect(if (selected == country) null else country) },
+                label = { Text(country) }
             )
         }
     }
@@ -168,6 +174,7 @@ private fun SortSection(
 @Composable
 private fun PriceRangeSection(
     range: ClosedFloatingPointRange<Float>,
+    ceiling: Float,
     onRangeChange: (ClosedFloatingPointRange<Float>) -> Unit
 ) {
     SectionHeader(stringResource(R.string.filter_price_range))
@@ -175,7 +182,7 @@ private fun PriceRangeSection(
     RangeSlider(
         value = range,
         onValueChange = onRangeChange,
-        valueRange = 0f..1000f,
+        valueRange = 0f..ceiling,
         steps = 9
     )
 
@@ -220,21 +227,22 @@ private fun FacilitiesSection(
     selected: Set<String>,
     onToggle: (String, Boolean) -> Unit
 ) {
+    // keyword is matched (case-insensitive substring) against each hotel's amenity text.
     val facilities = listOf(
-        stringResource(R.string.fac_wifi),
-        stringResource(R.string.fac_pool),
-        stringResource(R.string.fac_parking),
-        stringResource(R.string.fac_restaurant)
+        FacilityOption("wi-fi", stringResource(R.string.fac_wifi)),
+        FacilityOption("pool", stringResource(R.string.fac_pool)),
+        FacilityOption("parking", stringResource(R.string.fac_parking)),
+        FacilityOption("breakfast", stringResource(R.string.fac_breakfast))
     )
 
-    SectionHeader(stringResource(R.string.filter_facilities), stringResource(R.string.common_see_all))
+    SectionHeader(stringResource(R.string.filter_facilities))
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         facilities.forEach { facility ->
             FacilityCheckItem(
-                label = facility,
-                checked = facility in selected,
-                onCheckChange = { checked -> onToggle(facility, checked) }
+                label = facility.label,
+                checked = facility.keyword in selected,
+                onCheckChange = { checked -> onToggle(facility.keyword, checked) }
             )
         }
     }
@@ -244,27 +252,33 @@ private fun FacilitiesSection(
 
 @Composable
 private fun AccommodationSection(
+    types: List<String>,
     selected: Set<String>,
     onToggle: (String, Boolean) -> Unit
 ) {
-    val accommodationTypes = listOf(
-        stringResource(R.string.acc_hotels),
-        stringResource(R.string.acc_resorts),
-        stringResource(R.string.acc_villas),
-        stringResource(R.string.acc_apartments)
-    )
+    if (types.isEmpty()) return
 
-    SectionHeader(stringResource(R.string.filter_accommodation), stringResource(R.string.common_see_all))
+    SectionHeader(stringResource(R.string.filter_accommodation))
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        accommodationTypes.forEach { type ->
+        types.forEach { type ->
             FacilityCheckItem(
-                label = type,
+                label = accommodationLabel(type),
                 checked = type in selected,
                 onCheckChange = { checked -> onToggle(type, checked) }
             )
         }
     }
+}
+
+/** Localized display label for a backend accommodation enum value (HOTEL, APARTMENT, ...). */
+@Composable
+private fun accommodationLabel(type: String): String = when (type.uppercase()) {
+    "HOTEL" -> stringResource(R.string.acc_hotels)
+    "APARTMENT" -> stringResource(R.string.acc_apartments)
+    "VILLA" -> stringResource(R.string.acc_villas)
+    "HOUSE" -> stringResource(R.string.acc_houses)
+    else -> type.lowercase().replaceFirstChar { it.uppercase() }
 }
 
 @Composable

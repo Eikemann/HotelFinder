@@ -41,6 +41,24 @@ class SearchScreenViewModel : ViewModel() {
     var filterState by mutableStateOf(FilterState())
         private set
 
+    // Distinct countries present in the loaded data (the country part of "City, Country"),
+    // so the filter only offers options that can actually return results.
+    val availableCountries: List<String>
+        get() = hotels.mapNotNull { it.location.substringAfter(", ", "").takeIf(String::isNotBlank) }
+            .distinct()
+            .sorted()
+
+    // Distinct accommodation types in the data (backend enum values: HOTEL/APARTMENT/...).
+    val availableTypes: List<String>
+        get() = hotels.map { it.accommodationType }.filter { it.isNotBlank() }.distinct().sorted()
+
+    // Highest nightly price in the data, rounded up to a sensible slider ceiling.
+    val priceCeiling: Float
+        get() = hotels.mapNotNull { it.pricePerNight.toFloatOrNull() }.maxOrNull()
+            ?.let { kotlin.math.ceil(it / 100f) * 100f }
+            ?.coerceAtLeast(100f)
+            ?: 1000f
+
     val filteredHotels: List<Hotel>
         get() {
             var result = hotels
@@ -61,7 +79,16 @@ class SearchScreenViewModel : ViewModel() {
             }
 
             filterState.accommodationTypes.takeIf { it.isNotEmpty() }?.let { types ->
-                result = result.filter { it.accommodationType in types }
+                result = result.filter { hotel ->
+                    types.any { it.equals(hotel.accommodationType, ignoreCase = true) }
+                }
+            }
+
+            // Each selected facility is a keyword that must appear in at least one amenity (AND across selections).
+            filterState.facilities.takeIf { it.isNotEmpty() }?.let { keywords ->
+                result = result.filter { hotel ->
+                    keywords.all { kw -> hotel.amenities.any { it.contains(kw, ignoreCase = true) } }
+                }
             }
 
             filterState.starRating?.let { rating ->
@@ -95,7 +122,7 @@ class SearchScreenViewModel : ViewModel() {
     }
 
     fun resetFilters() {
-        filterState = FilterState()
+        filterState = FilterState(priceRange = 0f..priceCeiling)
     }
 
     fun loadHotels() {
@@ -107,6 +134,11 @@ class SearchScreenViewModel : ViewModel() {
                     hotelApi.getHotels()
                 }
                 hotels = response.map { it.toHotel() }
+                // Open the price slider up to the most expensive hotel so nothing is
+                // hidden by a stale 1000-default ceiling, unless the user already filtered.
+                if (filterState == FilterState()) {
+                    filterState = FilterState(priceRange = 0f..priceCeiling)
+                }
                 Log.d("HotelApp", "Hotels fetched from API")
             } catch (e: Exception) {
                 Log.e("HotelApp", "Error fetching hotels", e)

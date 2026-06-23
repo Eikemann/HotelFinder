@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
@@ -62,6 +63,13 @@ fun SearchScreen(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showSheet by remember { mutableStateOf(false) }
 
+    // After a filter/search/city change the result set shrinks, so snap back to the top
+    // instead of leaving the user stranded mid-list.
+    val listState = rememberLazyListState()
+    LaunchedEffect(viewModel.filterState, viewModel.searchQuery, viewModel.cityFilter) {
+        listState.scrollToItem(0)
+    }
+
     if (showSheet) {
         ModalBottomSheet(
             onDismissRequest = { showSheet = false },
@@ -69,6 +77,9 @@ fun SearchScreen(
         ) {
             FilterBottomSheet(
                 currentFilter = viewModel.filterState,
+                countries = viewModel.availableCountries,
+                accommodationTypes = viewModel.availableTypes,
+                priceCeiling = viewModel.priceCeiling,
                 onApply = { newFilter ->
                     viewModel.applyFilter(newFilter)
                     showSheet = false
@@ -142,7 +153,7 @@ fun SearchScreen(
 
             ResultHeader(results.size)
 
-            LazyColumn {
+            LazyColumn(state = listState) {
                 items(results, key = { it.id }) { hotel ->
                     HotelCard(
                         hotel = hotel,

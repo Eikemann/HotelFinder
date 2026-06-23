@@ -103,10 +103,12 @@
     <string name="fac_pool">Бассейн</string>
     <string name="fac_parking">Парковка</string>
     <string name="fac_restaurant">Ресторан</string>
+    <string name="fac_breakfast">Завтрак</string>
     <string name="acc_hotels">Отели</string>
     <string name="acc_resorts">Курорты</string>
     <string name="acc_villas">Виллы</string>
     <string name="acc_apartments">Апартаменты</string>
+    <string name="acc_houses">Дома</string>
 
     <!-- Detail -->
     <string name="detail_top_title">Детали</string>
