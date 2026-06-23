@@ -16,6 +16,9 @@ interface OrderApi {
     @GET("orders/my")
     suspend fun getMyOrders(): List<OrderResponse>
 
+    @GET("orders/{id}")
+    suspend fun getOrder(@Path("id") id: Long): OrderResponse
+
     @DELETE("orders/{id}")
     suspend fun deleteOrder(@Path("id") id: Long)
 }

@@ -41,6 +41,7 @@ import com.example.hotelapp.R
 import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.domain.local.model.Schedule
 import com.example.hotelapp.domain.remote.model.booking.OrderResponse
+import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.components.scheduleList
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
@@ -127,6 +128,7 @@ fun ScheduleScreen(
 
             else -> scheduleList(
                 scheduleList = schedules,
+                onClick = { id -> navController.navigate(Route.BookingDetail.create(id)) },
                 onDelete = { id -> viewModel.deleteOrder(id) }
             )
         }

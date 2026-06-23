@@ -185,6 +185,12 @@
     <string name="booking_timeline_upcoming">Upcoming</string>
     <string name="booking_timeline_active">Active now</string>
     <string name="booking_timeline_past">Past</string>
+    <!-- Booking detail screen -->
+    <string name="booking_detail_title">Booking details</string>
+    <string name="booking_detail_nights">Nights</string>
+    <string name="booking_detail_room">Room</string>
+    <string name="booking_detail_guest">Guest</string>
+    <string name="booking_detail_confirmation">Confirmation</string>
     <string name="error_delete_booking">Could not remove the booking.</string>
     <string name="booking_delete">Remove booking</string>
     <string name="booking_delete_confirm_title">Remove booking?</string>

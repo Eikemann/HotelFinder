@@ -54,4 +54,10 @@ sealed class Route {
     object Booking : Route() {
         const val route = "booking"
     }
+
+    object BookingDetail : Route() {
+        const val ARG_ORDER_ID = "orderId"
+        const val route = "booking_detail/{orderId}"
+        fun create(orderId: Long) = "booking_detail/$orderId"
+    }
 }

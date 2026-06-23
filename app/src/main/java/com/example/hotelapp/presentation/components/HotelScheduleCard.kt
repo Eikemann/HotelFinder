@@ -38,6 +38,7 @@ import com.example.hotelapp.domain.local.model.Schedule
 fun HotelScheduleCard(
     modifier: Modifier = Modifier,
     schedule: Schedule,
+    onClick: () -> Unit = {},
     onDelete: () -> Unit = {}
 ) {
     var showConfirm by remember { mutableStateOf(false) }
@@ -66,7 +67,8 @@ fun HotelScheduleCard(
     Card(
         modifier = Modifier
             .padding(12.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(12)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

@@ -185,6 +185,12 @@
     <string name="booking_timeline_upcoming">Предстоит</string>
     <string name="booking_timeline_active">Сейчас активно</string>
     <string name="booking_timeline_past">Завершено</string>
+    <!-- Booking detail screen -->
+    <string name="booking_detail_title">Детали бронирования</string>
+    <string name="booking_detail_nights">Ночей</string>
+    <string name="booking_detail_room">Номер</string>
+    <string name="booking_detail_guest">Гость</string>
+    <string name="booking_detail_confirmation">Подтверждение</string>
     <string name="error_delete_booking">Не удалось удалить бронирование.</string>
     <string name="booking_delete">Удалить бронирование</string>
     <string name="booking_delete_confirm_title">Удалить бронирование?</string>
