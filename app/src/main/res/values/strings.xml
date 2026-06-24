@@ -104,6 +104,9 @@
     <string name="country_spain">Spain</string>
     <string name="country_greece">Greece</string>
     <string name="country_usa">USA</string>
+    <string name="country_georgia">Georgia</string>
+    <string name="country_india">India</string>
+    <string name="country_vietnam">Vietnam</string>
     <string name="sort_popularity">Highest Popularity</string>
     <string name="sort_price_high">Highest Price</string>
     <string name="sort_price_low">Lowest Price</string>

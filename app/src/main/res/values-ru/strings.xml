@@ -104,6 +104,9 @@
     <string name="country_spain">Испания</string>
     <string name="country_greece">Греция</string>
     <string name="country_usa">США</string>
+    <string name="country_georgia">Грузия</string>
+    <string name="country_india">Индия</string>
+    <string name="country_vietnam">Вьетнам</string>
     <string name="sort_popularity">По популярности</string>
     <string name="sort_price_high">Сначала дорогие</string>
     <string name="sort_price_low">Сначала дешёвые</string>

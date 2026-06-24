@@ -63,24 +63,24 @@ val sampleHotels = listOf(
     ),
     Hotel(
         id = 6,
-        name = "Han River Lodge",
-        city = "Seoul",
-        location = "Seoul, South Korea",
+        name = "Patong Beach Resort",
+        city = "Phuket",
+        location = "Phuket, Thailand",
         pricePerNight = "330",
         rating = "4.4",
         imageRes = R.drawable.hotel2626098_1280,
-        description = "A refined lodge along the banks of the Han River. Combines Korean hospitality with sleek design. Enjoy river views, a wellness centre, and proximity to Gangnam.",
+        description = "A relaxed beachfront resort steps from Patong Beach. Combines Thai hospitality with sleek design. Enjoy sea views, a wellness centre, and easy access to the night market.",
         accommodationType = "Apartments"
     ),
     Hotel(
         id = 7,
-        name = "The Royal Garden",
-        city = "Tokyo",
-        location = "Tokyo, Japan",
+        name = "Old Town Garden",
+        city = "Tbilisi",
+        location = "Tbilisi, Georgia",
         pricePerNight = "410",
         rating = "4.8",
         imageRes = R.drawable.mountainhotel1567013_1280,
-        description = "An exquisite blend of traditional Japanese aesthetics and contemporary luxury in the heart of Tokyo. Features a zen garden, kaiseki restaurant, onsen bath, and skyline views.",
+        description = "An exquisite blend of traditional Georgian architecture and contemporary luxury in the heart of Old Tbilisi. Features a courtyard garden, a wine cellar, sulphur baths, and city views.",
         accommodationType = "Villas"
     ),
     Hotel(

@@ -285,6 +285,9 @@ private fun localizedCountryName(country: String): String = when (country.trim()
     "spain" -> stringResource(R.string.country_spain)
     "greece" -> stringResource(R.string.country_greece)
     "usa", "united states", "us" -> stringResource(R.string.country_usa)
+    "georgia" -> stringResource(R.string.country_georgia)
+    "india" -> stringResource(R.string.country_india)
+    "vietnam" -> stringResource(R.string.country_vietnam)
     else -> country
 }
 
