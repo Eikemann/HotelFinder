@@ -20,14 +20,15 @@ android {
         // Backend candidates. RetrofitHelper probes LOCAL first (emulator loopback
         // → host Docker backend on :8080) and falls back to REMOTE (hosted Railway,
         // stale NYC data) if the local one is unreachable. For a physical device,
-        // change LOCAL to the host's LAN IP.
-        buildConfigField("String", "LOCAL_BASE_URL", "\"http://10.0.2.2:8080/api/\"")
-        buildConfigField("String", "REMOTE_BASE_URL", "\"https://simple-service-production-25bc.up.railway.app/api/\"")
+        // change LOCAL to the host's LAN IP.honest-friendship-production-3c96.up.railway.app
+        buildConfigField("String", "LOCAL_BASE_URL", "\"http://10.0.2.2:8081/api/\"")
+        buildConfigField("String", "REMOTE_BASE_URL", "\"https://honest-friendship-production-3c96.up.railway.app/api/\"")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = false                      // keep R8 off so Retrofit/Gson DTOs aren't stripped
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -41,6 +42,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "21"
+        // Opt in project-wide to the experimental Compose layout APIs (FlowRow /
+        // FlowColumn) used in DetailScreen and FilterBottomSheet, so a clean
+        // release compile doesn't fail on the missing opt-in.
+        freeCompilerArgs += "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi"
     }
     buildFeatures {
         compose = true

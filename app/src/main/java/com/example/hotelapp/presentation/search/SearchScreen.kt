@@ -41,6 +41,13 @@ import com.example.hotelapp.presentation.components.HotelCard
 import com.example.hotelapp.presentation.search.components.FilterChips
 import com.example.hotelapp.presentation.search.components.SearchBar
 
+/**
+ * Экран поиска: строка поиска, чипы и нижний лист фильтров, список результатов.
+ * Может открываться с предзаданным городом (переход «Смотреть все» с главного экрана) —
+ * тогда показывается своя верхняя панель с кнопкой «назад».
+ *
+ * @param initialCity город для предварительной фильтрации (пусто — без ограничения)
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
@@ -55,7 +62,7 @@ fun SearchScreen(
         viewModel.loadHotels()
     }
 
-    // Restrict results to the city passed from a dashboard "See all" tap.
+    // Ограничиваем выдачу городом, переданным при переходе «Смотреть все» с главного экрана.
     LaunchedEffect(initialCity) {
         viewModel.applyCityFilter(initialCity)
     }
@@ -63,8 +70,8 @@ fun SearchScreen(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showSheet by remember { mutableStateOf(false) }
 
-    // After a filter/search/city change the result set shrinks, so snap back to the top
-    // instead of leaving the user stranded mid-list.
+    // После смены фильтра/запроса/города выдача сужается, поэтому прокручиваем список
+    // к началу, чтобы пользователь не остался посреди старого списка.
     val listState = rememberLazyListState()
     LaunchedEffect(viewModel.filterState, viewModel.searchQuery, viewModel.cityFilter) {
         listState.scrollToItem(0)
@@ -93,9 +100,9 @@ fun SearchScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // When Search is opened from a dashboard "See all" tap it carries a city
-        // filter and the shared top bar is hidden, so show a back arrow + city
-        // header to return to the dashboard. The plain Search tab has no city.
+        // Когда поиск открыт по «Смотреть все» с главного экрана, он несёт фильтр города,
+        // а общая верхняя панель скрыта — поэтому показываем стрелку «назад» и заголовок
+        // города для возврата. У обычной вкладки «Поиск» города нет.
         if (initialCity.isNotBlank()) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -148,7 +155,7 @@ fun SearchScreen(
                 CircularProgressIndicator()
             }
         } else {
-            // filteredHotels is a computed property — read it once per composition.
+            // filteredHotels — вычисляемое свойство; читаем его один раз за композицию.
             val results = viewModel.filteredHotels
 
             ResultHeader(results.size)
@@ -168,6 +175,7 @@ fun SearchScreen(
 }
 
 
+/** Заголовок результатов поиска: число найденных вариантов и иконки переключения вида. */
 @Composable
 fun ResultHeader(resultCount: Int) {
     Row(

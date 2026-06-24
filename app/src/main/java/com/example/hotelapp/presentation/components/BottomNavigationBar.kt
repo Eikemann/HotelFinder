@@ -12,6 +12,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hotelapp.navigation.BottomNavItem
 
+/** Нижняя панель навигации с вкладками из [BottomNavItem]; подсвечивает активную вкладку. */
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
@@ -22,8 +23,8 @@ fun BottomNavigationBar(
     NavigationBar {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        // Strip optional query args (e.g. "search?city=Dubai") so the Search tab
-        // still shows as selected when opened with a city filter.
+        // Отрезаем необязательные query-аргументы (например, "search?city=Dubai"), чтобы вкладка
+        // «Поиск» оставалась выделенной даже при открытии с фильтром города.
         val currentRoute = navBackStackEntry?.destination?.route?.substringBefore("?")
 
         items.forEach { item ->
@@ -31,7 +32,7 @@ fun BottomNavigationBar(
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
-                        // 🔥 IMPORTANT: avoid multiple copies
+                        // ВАЖНО: не плодим копии одного экрана в стеке, сохраняя его состояние.
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }

@@ -40,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,22 +48,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import coil.size.Scale
-import coil.size.Size
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.Filters
 import com.example.hotelapp.domain.local.model.Hotel
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.components.FilterCard
+import com.example.hotelapp.presentation.components.HotelImage
+import com.example.hotelapp.presentation.components.HotelThumbSize
 
 
-// Target decode size (px) for carousel thumbnails. Well below the card's full
-// pixel footprint (~780x540 on a 3x screen) to keep scrolling smooth.
-private const val THUMB_WIDTH_PX = 320
-private const val THUMB_HEIGHT_PX = 224
-
+/**
+ * Главный экран: панель фильтров по типу размещения и карусели отелей,
+ * сгруппированные по городам (данные из [DashboardScreenViewModel]).
+ * Нажатие на карточку открывает детали, «Смотреть все» — поиск по городу.
+ */
 @Composable
 fun DashboardScreen(
     viewModel: DashboardScreenViewModel = viewModel(),
@@ -73,8 +70,8 @@ fun DashboardScreen(
     val context = LocalContext.current
     var selectedFilterId by remember { mutableStateOf<Int?>(null) }
 
-    // Resolve string resources once, then remember the derived collections so they
-    // are not rebuilt on every recomposition (e.g. each filter-chip tap).
+    // Разрешаем строковые ресурсы один раз и запоминаем производные коллекции, чтобы они
+    // не пересоздавались при каждой рекомпозиции (например, при нажатии чипа фильтра).
     val filterHotels = stringResource(R.string.filter_hotels)
     val filterCondos = stringResource(R.string.filter_condos)
     val filterHouses = stringResource(R.string.filter_houses)
@@ -89,8 +86,8 @@ fun DashboardScreen(
             Filters(id = 5, filterName = filterApartments, filterIcon = R.drawable.icon)
         )
     }
-    // Maps a backend city name to its localized display label. Cities without an
-    // entry fall back to the raw name returned by the API.
+    // Сопоставляет имя города с бэкенда с его локализованной подписью. Города без записи
+    // отображаются «сырым» именем, как его вернул API.
     val cityAntalya = stringResource(R.string.city_antalya)
     val cityIstanbul = stringResource(R.string.city_istanbul)
     val cityDubai = stringResource(R.string.city_dubai)
@@ -158,7 +155,7 @@ fun DashboardScreen(
         }
 
         items(viewModel.hotelsByCity, key = { (city, _) -> city }) { (city, cityHotels) ->
-            // Display the localized label, but pass the backend city name to search.
+            // Показываем локализованную подпись, но в поиск передаём имя города с бэкенда.
             val label = cityLabels[city] ?: city
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -196,6 +193,7 @@ fun DashboardScreen(
 }
 
 
+/** Горизонтальный ряд чипов-фильтров по типу размещения. */
 @Composable
 private fun FilterSection(
     filterList: List<Filters>,
@@ -217,6 +215,7 @@ private fun FilterSection(
     }
 }
 
+/** Горизонтальная карусель карточек отелей одного города. */
 @Composable
 private fun CarouselSection(
     hotelList: List<Hotel>,
@@ -234,6 +233,7 @@ private fun CarouselSection(
     }
 }
 
+/** Карточка отеля в карусели: фото с кнопкой «избранное», название, рейтинг, город и цена. */
 @Composable
 private fun CaruselHotelCard(
     modifier: Modifier = Modifier,
@@ -256,23 +256,13 @@ private fun CaruselHotelCard(
     ) {
         Column(modifier = Modifier.fillMaxHeight()) {
             Box {
-                val context = LocalContext.current
-                AsyncImage(
-                    // Decode these carousel thumbnails at a reduced resolution rather
-                    // than the card's full pixel size — cuts decode time and memory,
-                    // which was the main source of scroll lag. Crop hides the
-                    // slight quality drop on these small cards.
-                    model = remember(hotel.imageUrl, hotel.imageRes) {
-                        ImageRequest.Builder(context)
-                            .data(hotel.imageUrl ?: hotel.imageRes)
-                            .size(Size(THUMB_WIDTH_PX, THUMB_HEIGHT_PX))
-                            .scale(Scale.FILL)
-                            .allowRgb565(true)
-                            .crossfade(true)
-                            .build()
-                    },
+                // Сжатая и уменьшенная миниатюра со спиннером на каждое изображение —
+                // см. HotelImage. Обрезка скрывает небольшую потерю качества на этих
+                // маленьких карточках; предзагружается в DashboardScreenViewModel.
+                HotelImage(
+                    data = hotel.imageUrl ?: hotel.imageRes,
                     contentDescription = hotel.name,
-                    contentScale = ContentScale.Crop,
+                    targetSize = HotelThumbSize,
                     modifier = Modifier
                         .height(180.dp)
                         .fillMaxWidth()

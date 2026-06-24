@@ -5,9 +5,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 
-// Stronger label/border contrast than the Material defaults so the auth form
-// fields stay legible on the light theme. The default resting label and outline
-// use onSurfaceVariant/outline, which read as washed-out; bump them to onSurface.
+/**
+ * Цвета полей ввода форм авторизации с более высоким контрастом подписи/рамки,
+ * чем у значений Material по умолчанию, чтобы поля оставались читаемыми на светлой теме
+ * (стандартные onSurfaceVariant/outline выглядят блёкло — поднимаем их до onSurface).
+ */
 @Composable
 fun authFieldColors(): TextFieldColors = OutlinedTextFieldDefaults.colors(
     focusedTextColor = MaterialTheme.colorScheme.onSurface,

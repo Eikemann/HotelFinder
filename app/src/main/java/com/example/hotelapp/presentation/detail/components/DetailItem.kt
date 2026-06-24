@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/** Элемент блока характеристик: иконка над подписью (тип, спальни и т.п.). */
 @Composable
 fun DetailItem(text: String, icon: ImageVector) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {

@@ -35,9 +35,17 @@ import androidx.compose.ui.unit.dp
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.FilterState
 
-/** Pairs a facility filter keyword (matched against amenity text) with its display label. */
+/** Связывает ключевое слово фильтра удобства (ищется в тексте amenity) с его подписью. */
 private data class FacilityOption(val keyword: String, val label: String)
 
+/**
+ * Нижний лист фильтров поиска: страна, сортировка, диапазон цены, рейтинг, удобства и тип
+ * размещения. Локально хранит выбор и возвращает собранный [FilterState] через [onApply].
+ *
+ * @param currentFilter текущее состояние фильтров (для предзаполнения)
+ * @param onApply вызывается с новым [FilterState] при нажатии «Применить»
+ * @param onReset сброс фильтров к значениям по умолчанию
+ */
 @Composable
 fun FilterBottomSheet(
     currentFilter: FilterState = FilterState(),
@@ -120,6 +128,7 @@ fun FilterBottomSheet(
     }
 }
 
+/** Секция выбора страны чипами (скрывается, если стран нет). */
 @Composable
 private fun CountrySection(
     countries: List<String>,
@@ -146,6 +155,7 @@ private fun CountrySection(
     Spacer(Modifier.height(16.dp))
 }
 
+/** Секция выбора сортировки (популярность, цена по убыванию/возрастанию). */
 @Composable
 private fun SortSection(
     selected: String?,
@@ -171,6 +181,7 @@ private fun SortSection(
     Spacer(Modifier.height(16.dp))
 }
 
+/** Секция диапазона цены: двойной слайдер и подписи минимума/максимума. */
 @Composable
 private fun PriceRangeSection(
     range: ClosedFloatingPointRange<Float>,
@@ -197,6 +208,7 @@ private fun PriceRangeSection(
     Spacer(Modifier.height(16.dp))
 }
 
+/** Секция выбора минимального рейтинга (от 1 до 5 звёзд). */
 @Composable
 private fun StarRatingSection(
     selected: Int?,
@@ -222,12 +234,13 @@ private fun StarRatingSection(
     Spacer(Modifier.height(16.dp))
 }
 
+/** Секция фильтра по удобствам (Wi-Fi, бассейн, парковка, завтрак) чекбоксами. */
 @Composable
 private fun FacilitiesSection(
     selected: Set<String>,
     onToggle: (String, Boolean) -> Unit
 ) {
-    // keyword is matched (case-insensitive substring) against each hotel's amenity text.
+    // keyword сопоставляется (подстрока без учёта регистра) с текстом удобств отеля.
     val facilities = listOf(
         FacilityOption("wi-fi", stringResource(R.string.fac_wifi)),
         FacilityOption("pool", stringResource(R.string.fac_pool)),
@@ -250,6 +263,7 @@ private fun FacilitiesSection(
     Spacer(Modifier.height(16.dp))
 }
 
+/** Секция фильтра по типу размещения (скрывается, если типов нет). */
 @Composable
 private fun AccommodationSection(
     types: List<String>,
@@ -271,6 +285,7 @@ private fun AccommodationSection(
     }
 }
 
+/** Возвращает локализованное название страны по её имени с бэкенда (иначе — как есть). */
 @Composable
 private fun localizedCountryName(country: String): String = when (country.trim().lowercase()) {
     "turkey" -> stringResource(R.string.country_turkey)
@@ -291,7 +306,7 @@ private fun localizedCountryName(country: String): String = when (country.trim()
     else -> country
 }
 
-/** Localized display label for a backend accommodation enum value (HOTEL, APARTMENT, ...). */
+/** Локализованная подпись для значения enum типа размещения с бэкенда (HOTEL, APARTMENT, ...). */
 @Composable
 private fun accommodationLabel(type: String): String = when (type.uppercase()) {
     "HOTEL" -> stringResource(R.string.acc_hotels)
@@ -301,6 +316,7 @@ private fun accommodationLabel(type: String): String = when (type.uppercase()) {
     else -> type.lowercase().replaceFirstChar { it.uppercase() }
 }
 
+/** Строка «чекбокс + подпись» для одного варианта удобства/типа. */
 @Composable
 private fun FacilityCheckItem(label: String, checked: Boolean, onCheckChange: (Boolean) -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -309,6 +325,7 @@ private fun FacilityCheckItem(label: String, checked: Boolean, onCheckChange: (B
     }
 }
 
+/** Нижние кнопки листа фильтров: «Сбросить» и «Применить». */
 @Composable
 private fun BottomActions(onReset: () -> Unit, onApply: () -> Unit) {
     Row(
@@ -324,6 +341,7 @@ private fun BottomActions(onReset: () -> Unit, onApply: () -> Unit) {
     }
 }
 
+/** Заголовок секции фильтра с необязательной кнопкой-действием справа. */
 @Composable
 private fun SectionHeader(title: String, action: String? = null) {
     Row(
@@ -341,6 +359,7 @@ private fun SectionHeader(title: String, action: String? = null) {
     }
 }
 
+/** Маленький чип с подписью цены (концы диапазона). */
 @Composable
 private fun PriceChip(text: String) {
     Surface(

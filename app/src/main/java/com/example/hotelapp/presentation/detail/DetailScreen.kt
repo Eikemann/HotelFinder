@@ -55,7 +55,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -63,7 +62,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.example.hotelapp.R
 import com.example.hotelapp.data.auth.TokenManager
 import com.example.hotelapp.domain.remote.model.review.ReviewResponse
@@ -71,6 +69,7 @@ import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.bottomSheets.BookingBottomSheet
 import com.example.hotelapp.presentation.components.BookingNowButton
 import com.example.hotelapp.presentation.components.FeatureChip
+import com.example.hotelapp.presentation.components.HotelImage
 import com.example.hotelapp.presentation.components.PreviewCard
 import com.example.hotelapp.presentation.components.RatingChip
 import com.example.hotelapp.presentation.detail.components.DetailItem
@@ -79,6 +78,12 @@ import com.example.hotelapp.presentation.detail.components.FacilityItem
 import com.example.hotelapp.presentation.detail.components.ReviewItem
 
 
+/**
+ * Экран деталей отеля: фото, характеристики, описание, удобства, отзывы и кнопка брони.
+ * Бронь и написание отзыва требуют входа — иначе пользователь уходит в граф авторизации.
+ *
+ * @param hotelId идентификатор отеля (строкой, как пришёл из навигации)
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
@@ -102,6 +107,7 @@ fun DetailScreen(
     var showSheet by remember { mutableStateOf(false) }
     var showReviewDialog by remember { mutableStateOf(false) }
 
+    // После успешной отправки отзыва закрываем форму и сбрасываем флаг.
     LaunchedEffect(detailViewModel.reviewJustSubmitted) {
         if (detailViewModel.reviewJustSubmitted) {
             showReviewDialog = false
@@ -194,10 +200,12 @@ fun DetailScreen(
                         .aspectRatio(1.513f)
                         .padding(16.dp)
                 ) {
-                    AsyncImage(
-                        model = hotel.imageUrl ?: hotel.imageRes,
+                    // HD-изображение в полном разрешении (targetSize = null => ORIGINAL,
+                    // ARGB_8888) со спиннером на время загрузки.
+                    HotelImage(
+                        data = hotel.imageUrl ?: hotel.imageRes,
                         contentDescription = "",
-                        contentScale = ContentScale.Crop,
+                        targetSize = null,
                         modifier = Modifier
                             .fillMaxSize()
                     )
@@ -236,8 +244,8 @@ fun DetailScreen(
 
     }}
 
-        // Rendered in the same window (not a Dialog/bottom-sheet) so the IME keeps its
-        // composing region — required for non-Latin keyboards (e.g. Russian) to work.
+        // Рисуется в том же окне (не Dialog/bottom-sheet), чтобы IME сохраняла область
+        // ввода — это нужно для корректной работы не-латинских клавиатур (например, русской).
         if (showReviewDialog) {
             WriteReviewOverlay(
                 isSubmitting = detailViewModel.isSubmittingReview,
@@ -256,6 +264,7 @@ fun DetailScreen(
     }
 }
 
+/** Ряд чипов с особенностями отеля и чипом рейтинга. */
 @Composable
 private fun FeatureSection(modifier: Modifier = Modifier, rating: String) {
     LazyRow(modifier = modifier.padding(12.dp)) {
@@ -285,6 +294,7 @@ private fun FeatureSection(modifier: Modifier = Modifier, rating: String) {
     }
 }
 
+/** Заголовок отеля: название, цена за ночь и местоположение. */
 @Composable
 private fun HotelHeadline(
     hotelName: String,
@@ -346,6 +356,7 @@ private fun HotelHeadline(
     }
 }
 
+/** Блок характеристик: тип, спальни, санузлы, площадь. */
 @Composable
 private fun DetailSection() {
     Text(
@@ -370,6 +381,7 @@ private fun DetailSection() {
     }
 }
 
+/** Описание отеля со сворачиванием: показывает несколько строк и кнопку «читать далее/свернуть». */
 @Composable
 private fun HotelDescription(
     description: String,
@@ -413,6 +425,7 @@ private fun HotelDescription(
     }
 }
 
+/** Горизонтальная лента превью-изображений отеля. */
 @Composable
 fun PreviewSection(
     images: List<Int>,
@@ -440,6 +453,7 @@ fun PreviewSection(
     }
 }
 
+/** Сетка удобств отеля; при пустом списке показывает заглушку. */
 @Composable
 private fun FacilitiesSection(amenities: List<String>) {
     Column(
@@ -472,6 +486,7 @@ private fun FacilitiesSection(amenities: List<String>) {
     }
 }
 
+/** Подбирает иконку для удобства по ключевым словам в его названии. */
 private fun amenityIcon(name: String): ImageVector {
     val n = name.lowercase()
     return when {
@@ -483,6 +498,7 @@ private fun amenityIcon(name: String): ImageVector {
     }
 }
 
+/** Блок отзывов: заголовок со ссылкой «написать отзыв» и список отзывов (или заглушка). */
 @Composable
 private fun ReviewSection(
     reviews: List<ReviewResponse>,
@@ -525,6 +541,10 @@ private fun ReviewSection(
     }
 }
 
+/**
+ * Форма написания отзыва поверх экрана: выбор оценки (1..10), заголовок и комментарий.
+ * Рисуется как оверлей в том же окне (см. пояснение про IME выше).
+ */
 @Composable
 private fun WriteReviewOverlay(
     isSubmitting: Boolean,
@@ -536,7 +556,7 @@ private fun WriteReviewOverlay(
     var title by remember { mutableStateOf("") }
     var comment by remember { mutableStateOf("") }
 
-    // Dimmed scrim covering the whole screen; tapping it dismisses the form.
+    // Затемнение на весь экран; нажатие по нему закрывает форму.
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -553,7 +573,7 @@ private fun WriteReviewOverlay(
         modifier = Modifier
             .align(Alignment.BottomCenter)
             .fillMaxWidth()
-            // Swallow taps on the form itself so they don't dismiss it.
+            // Перехватываем нажатия по самой форме, чтобы они её не закрывали.
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }

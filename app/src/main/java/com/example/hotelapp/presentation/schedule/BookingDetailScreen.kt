@@ -29,21 +29,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.remote.model.booking.OrderResponse
+import com.example.hotelapp.presentation.components.HotelBookingDetailSize
+import com.example.hotelapp.presentation.components.HotelImage
 import com.example.hotelapp.presentation.components.StatusBadge
 import com.example.hotelapp.presentation.components.TimelineLabel
 import com.example.hotelapp.presentation.components.timelineOf
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
+/**
+ * Экран деталей одной брони: загружает заказ по [orderId] и показывает его данные,
+ * обрабатывая состояния загрузки, ошибки и успешной загрузки.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingDetailScreen(
@@ -88,8 +92,10 @@ fun BookingDetailScreen(
     }
 }
 
+/** Содержимое брони: фото, название, статус, даты, число ночей, гость и итоговая сумма. */
 @Composable
 private fun BookingDetailContent(order: OrderResponse) {
+    // Безопасно парсим даты; число ночей считаем только когда обе даты валидны.
     val checkIn = order.checkInDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
     val checkOut = order.checkOutDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
     val nights = if (checkIn != null && checkOut != null)
@@ -101,10 +107,10 @@ private fun BookingDetailContent(order: OrderResponse) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        AsyncImage(
-            model = order.propertyImageUrl ?: R.drawable.hotelimage,
+        HotelImage(
+            data = order.propertyImageUrl ?: R.drawable.hotelimage,
             contentDescription = order.propertyName,
-            contentScale = ContentScale.Crop,
+            targetSize = HotelBookingDetailSize,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
@@ -173,6 +179,7 @@ private fun BookingDetailContent(order: OrderResponse) {
     }
 }
 
+/** Строка «подпись — значение» для блока деталей брони. */
 @Composable
 private fun DetailRow(label: String, value: String) {
     Row(

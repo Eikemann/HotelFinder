@@ -39,6 +39,10 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
+/**
+ * Полноразмерный календарь на месяц: заголовок с переключением месяцев, строка дней недели
+ * и сетка дат 7×6 с выделением выбранного дня.
+ */
 @Composable
 fun FullCalendar(
     currentMonth: YearMonth,
@@ -70,7 +74,7 @@ fun FullCalendar(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(7),
-            userScrollEnabled = false, // CRASH FIX
+            userScrollEnabled = false, // отключаем прокрутку сетки (вложена в скролл — иначе краш)
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -88,6 +92,7 @@ fun FullCalendar(
         }
     }
 }
+/** Заголовок календаря: название месяца с годом и кнопки «предыдущий/следующий месяц». */
 @Composable
 fun CalendarHeader(
     currentMonth: YearMonth,
@@ -119,6 +124,7 @@ fun CalendarHeader(
 }
 
 
+/** Строка сокращённых названий дней недели над сеткой дат. */
 @Composable
 private fun DaysOfWeekRow() {
     val days = listOf("S", "M", "T", "W", "T", "F", "S")
@@ -136,6 +142,7 @@ private fun DaysOfWeekRow() {
     }
 }
 
+/** Одна ячейка календаря: число дня с выделением выбора; пустая для дней-заполнителей (null). */
 @Composable
 fun CalendarDay(
     date: LocalDate?,
@@ -171,6 +178,10 @@ fun CalendarDay(
 }
 
 
+/**
+ * Формирует список из 42 ячеек (6 недель) для сетки месяца: ведущие/замыкающие пустые ячейки
+ * (null) выравнивают первый день по дню недели и дополняют сетку до полного размера.
+ */
 fun generateCalendarDays(month: YearMonth): List<LocalDate?> {
     val firstDay = month.atDay(1)
     val daysInMonth = month.lengthOfMonth()

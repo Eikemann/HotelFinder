@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.example.hotelapp.presentation.auth.LoginScreen
 import com.example.hotelapp.presentation.auth.RegisterScreen
 
+/** Под-граф авторизации: экраны входа и регистрации. */
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(
         startDestination = Route.Login.route,
@@ -35,6 +36,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     }
 }
 
+/** Переходит на главный экран, убирая граф авторизации из стека (без возврата назад). */
 private fun NavHostController.toDashboard() {
     navigate(Route.Dashboard.route) {
         popUpTo(Route.Auth.route) { inclusive = true }

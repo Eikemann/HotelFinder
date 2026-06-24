@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/** Небольшой чип «иконка + текст» для отображения особенности отеля. */
 @Composable
 fun FeatureChip(
     icon: ImageVector,

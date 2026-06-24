@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.hotelapp.R
 
+/** Верхняя панель экрана деталей: кнопка «назад», заголовок и кнопка дополнительных действий. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreenTopBar(

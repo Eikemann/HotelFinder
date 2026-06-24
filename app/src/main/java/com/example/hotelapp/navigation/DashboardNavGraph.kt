@@ -15,17 +15,17 @@ import com.example.hotelapp.presentation.mainScreen.MainScreen
 import com.example.hotelapp.presentation.schedule.ScheduleScreen
 import com.example.hotelapp.presentation.search.SearchScreen
 
-// Left-to-right order of the bottom-nav tabs; determines the slide direction.
-// Uses the Search *base* route so the index lookup ignores its optional city arg.
+// Порядок вкладок нижней навигации слева направо; определяет направление сдвига.
+// Используется *базовый* маршрут Search, чтобы индекс не зависел от необязательного arg города.
 private val tabOrder = listOf(Route.Home.route, Route.Search.base, Route.Schedule.route)
 
-// Strip any query args (e.g. "search?city=Dubai" -> "search") before matching.
+// Отрезаем query-аргументы (например, "search?city=Dubai" -> "search") перед сопоставлением.
 private fun tabIndex(route: String?): Int = tabOrder.indexOf(route?.substringBefore("?"))
 
 /**
- * Slide direction between tabs: moving to a tab further right slides the new
- * screen in from the right (and vice versa). Returns null for non-tab
- * navigation so the NavHost default (soft fade) applies.
+ * Направление сдвига между вкладками: переход к вкладке правее вдвигает новый экран
+ * справа (и наоборот). Возвращает null для не-вкладочной навигации, чтобы применился
+ * переход NavHost по умолчанию (мягкое затухание).
  */
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabEnter(): EnterTransition? {
     val from = tabIndex(initialState.destination.route)
@@ -34,6 +34,7 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabEnter(): EnterT
     return if (to > from) NavTransitions.tabSlideInFromRight() else NavTransitions.tabSlideInFromLeft()
 }
 
+/** Зеркальный к [tabEnter] переход выхода для уходящего экрана вкладки. */
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabExit(): ExitTransition? {
     val from = tabIndex(initialState.destination.route)
     val to = tabIndex(targetState.destination.route)
@@ -41,13 +42,17 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabExit(): ExitTra
     return if (to > from) NavTransitions.tabSlideOutToLeft() else NavTransitions.tabSlideOutToRight()
 }
 
+/**
+ * Под-граф главного раздела с тремя вкладками (Главная, Поиск, Брони).
+ * Каждая вкладка оборачивается в [MainScreen] (общий каркас с нижней навигацией).
+ */
 fun NavGraphBuilder.dashboardNavGraph(navController: NavController){
     navigation(
         startDestination = Route.Home.route,
         route = Route.Dashboard.route
     ){
         tabOrder.forEach { tabRoute ->
-            // The Search tab carries an optional `city` query arg; other tabs don't.
+            // У вкладки Поиск есть необязательный query-аргумент `city`; у остальных — нет.
             val isSearch = tabRoute == Route.Search.base
             composable(
                 route = if (isSearch) Route.Search.route else tabRoute,

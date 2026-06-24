@@ -7,6 +7,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.hotelapp.R
 
+/**
+ * Описание элемента нижней навигации: маршрут, иконка и строковый ресурс подписи.
+ * Список всех вкладок доступен через [BottomNavItem.items].
+ */
 sealed class BottomNavItem(
     val route: String,
     val icon: ImageVector,

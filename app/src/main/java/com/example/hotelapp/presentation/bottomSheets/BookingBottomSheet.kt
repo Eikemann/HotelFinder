@@ -42,6 +42,13 @@ import com.maxkeppeler.sheets.calendar.models.CalendarTimeline
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
+/**
+ * Нижний лист бронирования: выбор комнаты и дат, расчёт стоимости и подтверждение брони
+ * через [BookingViewModel]. После успешной брони показывает экран подтверждения.
+ *
+ * @param propertyId идентификатор объекта размещения, для которого бронируется комната
+ * @param onClose закрытие листа
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingBottomSheet(
@@ -64,7 +71,7 @@ fun BookingBottomSheet(
         config = CalendarConfig(
             monthSelection = true,
             yearSelection = true,
-            // Past dates can't be selected for a check-in/out.
+            // Прошедшие даты нельзя выбрать для заезда/выезда.
             disabledTimeline = CalendarTimeline.PAST
         ),
         selection = CalendarSelection.Period(
@@ -214,6 +221,7 @@ fun BookingBottomSheet(
     }
 }
 
+/** Карточка одного варианта комнаты с выделением выбора, вместимостью и ценой. */
 @Composable
 private fun RoomOption(
     room: RoomResponse,
@@ -259,6 +267,7 @@ private fun RoomOption(
     }
 }
 
+/** Экран успешного подтверждения брони с кнопкой завершения. */
 @Composable
 private fun BookingConfirmed(onDone: () -> Unit) {
     Column(

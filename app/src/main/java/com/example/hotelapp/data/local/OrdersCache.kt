@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.first
 private val Context.ordersDataStore by preferencesDataStore(name = "orders_prefs")
 
 /**
- * Persists the user's bookings locally (as JSON) so they can still be shown when
- * the device is offline. Backed by DataStore, mirroring [com.example.hotelapp.data.auth.TokenManager].
- * Refreshed on every successful load; cleared on logout so one account's bookings
- * never leak to the next.
+ * Хранит брони пользователя локально (в виде JSON), чтобы показывать их офлайн.
+ * Использует DataStore по аналогии с [com.example.hotelapp.data.auth.TokenManager].
+ * Обновляется при каждой успешной загрузке; очищается при выходе, чтобы брони
+ * одного аккаунта не попали к другому.
  */
 object OrdersCache {
 
@@ -27,7 +27,7 @@ object OrdersCache {
 
     private val context: Context get() = AppRes.appContext
 
-    /** Stores the latest bookings fetched from the server. */
+    /** Сохраняет последние брони, полученные с сервера. */
     suspend fun save(orders: List<OrderResponse>) {
         try {
             val json = gson.toJson(orders, listType)
@@ -37,7 +37,7 @@ object OrdersCache {
         }
     }
 
-    /** Returns the cached bookings, or an empty list if none/unreadable. */
+    /** Возвращает закэшированные брони или пустой список, если их нет/не удалось прочитать. */
     suspend fun load(): List<OrderResponse> {
         return try {
             val json = context.ordersDataStore.data.first()[KEY_ORDERS] ?: return emptyList()
@@ -48,7 +48,7 @@ object OrdersCache {
         }
     }
 
-    /** Drops the cached bookings (call on logout). */
+    /** Удаляет закэшированные брони (вызывается при выходе из аккаунта). */
     suspend fun clear() {
         context.ordersDataStore.edit { it.remove(KEY_ORDERS) }
     }

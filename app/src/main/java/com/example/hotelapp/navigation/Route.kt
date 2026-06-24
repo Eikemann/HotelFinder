@@ -1,5 +1,9 @@
 package com.example.hotelapp.navigation
 
+/**
+ * Типобезопасный перечень маршрутов навигации и помощников для построения путей
+ * с аргументами. Каждый экран/граф описан отдельным объектом-наследником.
+ */
 sealed class Route {
 
     object Auth : Route() {
@@ -23,7 +27,7 @@ sealed class Route {
     }
 
     object Search : Route() {
-        // Optional `city` query arg: empty means "show all hotels".
+        // Необязательный query-аргумент `city`: пусто означает «показать все отели».
         const val base = "search"
         const val ARG_CITY = "city"
         const val route = "search?city={city}"

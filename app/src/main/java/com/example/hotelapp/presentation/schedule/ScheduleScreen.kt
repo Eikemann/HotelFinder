@@ -50,6 +50,10 @@ import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import java.time.LocalDate
 
 
+/**
+ * Экран «Брони»: выбор диапазона дат (календарь) и список заказов пользователя
+ * с состояниями загрузки, ошибки, пустого списка и офлайн-режима.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(
@@ -135,6 +139,7 @@ fun ScheduleScreen(
     }
 }
 
+/** Преобразует заказ из сети в UI-модель [Schedule] (формат дат, цена, статус). */
 private fun OrderResponse.toSchedule(): Schedule {
     val dateRange = listOfNotNull(checkInDate, checkOutDate).joinToString(" → ")
     return Schedule(
@@ -151,6 +156,7 @@ private fun OrderResponse.toSchedule(): Schedule {
 }
 
 
+/** Пара кнопок выбора дат заезда и выезда, открывающих общий диалог-календарь. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DatePickerRow(
@@ -160,6 +166,7 @@ private fun DatePickerRow(
 ) {
     val formatter = java.time.format.DateTimeFormatter.ofPattern("dd.MM.yy")
 
+    // Локальный помощник: одна кнопка-дата с подписью и иконкой календаря.
     @Composable
     fun DateButton(label: String, date: LocalDate?, endPadding: Int) {
         Column {
@@ -203,7 +210,7 @@ private fun DatePickerRow(
     }
 }
 
-/** Small notice shown when bookings are served from the local cache. */
+/** Небольшое уведомление, когда брони показываются из локального кэша (офлайн). */
 @Composable
 private fun OfflineBanner() {
     Text(
@@ -216,6 +223,7 @@ private fun OfflineBanner() {
     )
 }
 
+/** Заголовок раздела «Мои брони» со ссылкой «смотреть все». */
 @Composable
 private fun MyScheduleRow(modifier: Modifier = Modifier) {
     Row(

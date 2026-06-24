@@ -10,6 +10,7 @@ import com.example.hotelapp.presentation.detail.DetailScreen
 import com.example.hotelapp.presentation.schedule.BookingDetailScreen
 
 
+/** Под-граф деталей: экран отеля (по hotelId) и экран деталей брони (по orderId). */
 fun NavGraphBuilder.hotelNavGraph(navController: NavHostController) {
     navigation(
         startDestination = Route.HotelDetail.route,

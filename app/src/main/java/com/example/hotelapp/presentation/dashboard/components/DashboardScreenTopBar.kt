@@ -25,6 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hotelapp.R
 
+/**
+ * Верхняя панель главного экрана: приветствие с именем пользователя (или «гость»),
+ * иконка уведомлений и кнопка входа/выхода в зависимости от [isLoggedIn].
+ */
 @Composable
 fun DashboardScreenTopBar(
     isLoggedIn: Boolean = false,

@@ -3,7 +3,7 @@ package com.example.hotelapp.data.remote.api
 import com.google.gson.Gson
 import retrofit2.HttpException
 
-/** Extracts the `message` field from a backend `ErrorResponse` body, if present. */
+/** Извлекает поле `message` из тела ошибки бэкенда (`ErrorResponse`), если оно есть. */
 fun HttpException.serverMessage(): String? = try {
     val body = response()?.errorBody()?.string()
     if (body.isNullOrBlank()) {

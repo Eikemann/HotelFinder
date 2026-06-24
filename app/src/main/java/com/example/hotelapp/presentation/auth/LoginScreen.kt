@@ -30,6 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hotelapp.R
 
+/**
+ * Экран входа: поля email и пароля, обработка состояния загрузки/ошибки из [AuthViewModel]
+ * и переходы к регистрации или просмотру в роли гостя.
+ *
+ * @param onLoggedIn вызывается после успешного входа
+ * @param onNavigateToRegister переход на экран регистрации
+ * @param onBrowseAsGuest продолжить без авторизации
+ */
 @Composable
 fun LoginScreen(
     onLoggedIn: () -> Unit,
@@ -40,6 +48,7 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    // Как только вход успешен — уведомляем навигацию.
     LaunchedEffect(viewModel.isAuthenticated) {
         if (viewModel.isAuthenticated) onLoggedIn()
     }

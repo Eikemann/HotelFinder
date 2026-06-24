@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import com.example.hotelapp.domain.local.model.Schedule
 
+/** Добавляет в LazyColumn список карточек броней с обработчиками нажатия и удаления. */
 fun LazyListScope.scheduleList(
     scheduleList : List<Schedule>,
     onClick: (Long) -> Unit = {},

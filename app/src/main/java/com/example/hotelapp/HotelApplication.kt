@@ -9,19 +9,26 @@ import com.example.hotelapp.data.AppRes
 import com.example.hotelapp.data.auth.TokenManager
 import com.example.hotelapp.data.remote.api.RetrofitHelper
 
+/**
+ * Класс Application: точка ранней инициализации приложения. Прогревает контекст для
+ * [AppRes], восстанавливает токен в [TokenManager], выбирает адрес бэкенда и настраивает
+ * общий загрузчик изображений Coil.
+ */
 class HotelApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
         AppRes.appContext = this
         TokenManager.init(this)
-        // Pick the reachable backend (local Docker, else hosted Railway) before the
-        // first API call. The probe does socket I/O so it runs on a background
-        // thread; we join briefly so the chosen URL is ready when screens load.
+        // Выбираем доступный бэкенд (локальный Docker, иначе хостинг Railway) до первого
+        // API-вызова. Проверка делает сетевой ввод-вывод, поэтому идёт в фоновом потоке;
+        // кратко ждём её (join), чтобы к загрузке экранов адрес был уже выбран.
         Thread { RetrofitHelper.resolveBaseUrl() }.apply { start(); join(1500) }
     }
 
-    // App-wide Coil loader: soft crossfade on image load + bounded caches so
-    // list images come back instantly when scrolling.
+    /**
+     * Общий для приложения загрузчик Coil: плавное появление изображений и ограниченные
+     * кэши (память/диск), чтобы картинки списков мгновенно возвращались при прокрутке.
+     */
     override fun newImageLoader(): ImageLoader =
         ImageLoader.Builder(this)
             .crossfade(true)

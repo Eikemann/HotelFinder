@@ -5,11 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 
+/**
+ * Корневой навигационный граф приложения: объединяет под-графы авторизации,
+ * главного экрана и деталей отеля, задавая общие анимации переходов.
+ */
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
-    // Browsing is public — everyone starts on the dashboard. Auth is only
-    // required for actions like booking or writing a review, which route to
-    // the Auth graph on demand.
+    // Просмотр публичен — все стартуют с главного экрана. Авторизация нужна лишь для
+    // действий вроде брони или написания отзыва, которые ведут в граф Auth по требованию.
     NavHost(
         navController = navController,
         startDestination = Route.Dashboard.route,

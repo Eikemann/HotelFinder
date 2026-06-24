@@ -14,6 +14,10 @@ import com.example.hotelapp.navigation.SetupNavGraph
 import com.example.hotelapp.ui.theme.AppTheme
 
 
+/**
+ * Единственная Activity приложения. Включает edge-to-edge, применяет тему и
+ * запускает корневой навигационный граф Compose.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +25,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                // A root Surface gives every screen the themed background and sets
-                // LocalContentColor to onSurface, so text without an explicit color
-                // (e.g. the auth titles) stays legible in dark mode.
+                // Корневой Surface задаёт всем экранам фон из темы и выставляет
+                // LocalContentColor в onSurface, чтобы текст без явного цвета
+                // (например, заголовки авторизации) оставался читаемым в тёмной теме.
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

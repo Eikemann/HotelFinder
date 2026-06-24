@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/** Чип с золотой звездой и числовым рейтингом отеля. */
 @Composable
 fun RatingChip(
     rating: String

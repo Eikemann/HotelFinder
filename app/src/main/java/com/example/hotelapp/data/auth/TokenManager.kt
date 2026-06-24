@@ -11,9 +11,9 @@ import kotlinx.coroutines.runBlocking
 private val Context.authDataStore by preferencesDataStore(name = "auth_prefs")
 
 /**
- * Persists the JWT and basic user info via DataStore, and keeps an in-memory
- * cache so the OkHttp interceptor and the startup routing decision can read the
- * token synchronously. Must be [init]ialised once from [HotelApplication].
+ * Хранит JWT и основные данные пользователя в DataStore и держит копию в памяти,
+ * чтобы OkHttp-интерцептор и решение о стартовой навигации могли читать токен
+ * синхронно. Должен быть один раз инициализирован через [init] из [HotelApplication].
  */
 object TokenManager {
 
@@ -36,12 +36,14 @@ object TokenManager {
     var fullName: String? = null
         private set
 
+    /** Пользователь считается авторизованным, если в памяти есть непустой токен. */
     val isLoggedIn: Boolean
         get() = !token.isNullOrBlank()
 
+    /** Инициализирует менеджер и прогревает кэш в памяти данными из DataStore. */
     fun init(context: Context) {
         appContext = context.applicationContext
-        // One-time blocking read to warm the in-memory cache at app start.
+        // Однократное блокирующее чтение, чтобы прогреть кэш в памяти при старте приложения.
         runBlocking {
             val prefs = appContext.authDataStore.data.first()
             token = prefs[KEY_TOKEN]
@@ -50,6 +52,7 @@ object TokenManager {
         }
     }
 
+    /** Сохраняет данные авторизации в DataStore и одновременно в кэш в памяти. */
     suspend fun save(response: AuthResponse) {
         appContext.authDataStore.edit { prefs ->
             response.token?.let { prefs[KEY_TOKEN] = it }
@@ -62,12 +65,13 @@ object TokenManager {
         fullName = response.fullName
     }
 
+    /** Полностью выходит из аккаунта: очищает кэш в памяти и данные в DataStore. */
     suspend fun clear() {
         clearCache()
         appContext.authDataStore.edit { it.clear() }
     }
 
-    /** Synchronously clears the in-memory cache so callers see logged-out immediately. */
+    /** Синхронно очищает кэш в памяти, чтобы вызывающий код сразу увидел разлогин. */
     fun clearCache() {
         token = null
         email = null

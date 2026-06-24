@@ -40,6 +40,10 @@ import com.example.hotelapp.R
 import java.time.LocalDate
 
 
+/**
+ * Карточка выбора параметров брони: даты заезда/выезда (с кнопкой открытия календаря)
+ * и счётчик количества гостей.
+ */
 @Composable
 fun BookingSelectionCard(
     onCalendarClick: () -> Unit,
@@ -60,7 +64,7 @@ fun BookingSelectionCard(
             modifier = Modifier.padding(16.dp)
         ) {
 
-            // Header
+            // Заголовок
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -92,7 +96,7 @@ fun BookingSelectionCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Check-in / Check-out
+            // Заезд / Выезд
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -122,7 +126,7 @@ fun BookingSelectionCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Guests Row
+            // Строка с количеством гостей
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -162,6 +166,7 @@ fun BookingSelectionCard(
 }
 
 
+/** Обрамлённый блок с подписью и значением одной даты (заезд или выезд). */
 @Composable
 private fun DateBox(
     title: String,
@@ -190,6 +195,7 @@ private fun DateBox(
     }
 }
 
+/** Счётчик гостей с кнопками «−» и «+» (минимум 1 гость). */
 @Composable
 fun GuestCounter(
     count: Int,

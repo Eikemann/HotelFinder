@@ -18,6 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 
 
+/** Чип-фильтр на главном экране с иконкой и названием; меняет цвет в активном состоянии. */
 @Composable
 fun FilterCard(
     filterName: String,

@@ -3,19 +3,23 @@ package com.example.hotelapp.data.mapper
 import com.example.hotelapp.domain.local.model.Hotel
 import com.example.hotelapp.domain.remote.model.HotelResponseItem
 
+/**
+ * Преобразует сетевую модель [HotelResponseItem] в доменную [Hotel] для UI:
+ * собирает отображаемое местоположение, форматирует цену и выбирает рейтинг.
+ */
 fun HotelResponseItem.toHotel(): Hotel {
     return Hotel(
         id = id,
         name = name,
         city = city.orEmpty(),
-        // Backend stores address parts separately; compose a display location.
+        // Бэкенд хранит части адреса отдельно — собираем строку местоположения для отображения.
         location = listOfNotNull(city, country)
             .filter { it.isNotBlank() }
             .joinToString(", "),
         description = description.orEmpty(),
-        // "From" price = cheapest room for the property (may be null if no rooms).
+        // Цена «от» — самая дешёвая комната объекта (может быть null, если комнат нет).
         pricePerNight = pricePerNight?.let { "%.0f".format(it) }.orEmpty(),
-        // Prefer the review-derived rating; fall back to the star rating.
+        // Предпочитаем рейтинг по отзывам; при его отсутствии берём звёздность.
         rating = (rating ?: starRating?.toDouble())?.toString().orEmpty(),
         imageRes = 0,
         accommodationType = propertyType.orEmpty(),
