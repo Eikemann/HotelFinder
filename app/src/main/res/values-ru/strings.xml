@@ -96,6 +96,14 @@
     <string name="country_italia">Италия</string>
     <string name="country_turkey">Турция</string>
     <string name="country_germany">Германия</string>
+    <string name="country_uae">ОАЭ</string>
+    <string name="country_thailand">Таиланд</string>
+    <string name="country_south_korea">Южная Корея</string>
+    <string name="country_japan">Япония</string>
+    <string name="country_egypt">Египет</string>
+    <string name="country_spain">Испания</string>
+    <string name="country_greece">Греция</string>
+    <string name="country_usa">США</string>
     <string name="sort_popularity">По популярности</string>
     <string name="sort_price_high">Сначала дорогие</string>
     <string name="sort_price_low">Сначала дешёвые</string>

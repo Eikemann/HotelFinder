@@ -109,8 +109,8 @@ fun HotelCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(horizontal = 12.dp, vertical = 12.dp)
+                    .align(Alignment.CenterEnd)
+                    .padding(horizontal = 12.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Star,

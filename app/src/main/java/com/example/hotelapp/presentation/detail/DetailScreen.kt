@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,7 +29,6 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,8 +40,8 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -50,8 +50,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -119,22 +121,7 @@ fun DetailScreen(
         }
     }
 
-    if (showReviewDialog) {
-        WriteReviewDialog(
-            isSubmitting = detailViewModel.isSubmittingReview,
-            error = detailViewModel.reviewError,
-            onDismiss = {
-                showReviewDialog = false
-                detailViewModel.consumeReviewError()
-            },
-            onSubmit = { rating, title, comment ->
-                hotelId.toIntOrNull()?.let {
-                    detailViewModel.submitReview(it, rating, title, comment)
-                }
-            }
-        )
-    }
-
+    Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
         topBar = {
             DetailScreenTopBar(
@@ -146,6 +133,7 @@ fun DetailScreen(
         },
         bottomBar = {
             BookingNowButton(
+                pricePerNight = hotel?.pricePerNight ?: "",
                 onClick = {
                     if (TokenManager.isLoggedIn) {
                         showSheet = true
@@ -247,6 +235,25 @@ fun DetailScreen(
         }
 
     }}
+
+        // Rendered in the same window (not a Dialog/bottom-sheet) so the IME keeps its
+        // composing region — required for non-Latin keyboards (e.g. Russian) to work.
+        if (showReviewDialog) {
+            WriteReviewOverlay(
+                isSubmitting = detailViewModel.isSubmittingReview,
+                error = detailViewModel.reviewError,
+                onDismiss = {
+                    showReviewDialog = false
+                    detailViewModel.consumeReviewError()
+                },
+                onSubmit = { rating, title, comment ->
+                    hotelId.toIntOrNull()?.let {
+                        detailViewModel.submitReview(it, rating, title, comment)
+                    }
+                }
+            )
+        }
+    }
 }
 
 @Composable
@@ -304,7 +311,7 @@ private fun HotelHeadline(
             )
 
             Text(
-                text = pricePerNight,
+                text = "$$pricePerNight",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -519,7 +526,7 @@ private fun ReviewSection(
 }
 
 @Composable
-private fun WriteReviewDialog(
+private fun WriteReviewOverlay(
     isSubmitting: Boolean,
     error: String?,
     onDismiss: () -> Unit,
@@ -529,59 +536,88 @@ private fun WriteReviewDialog(
     var title by remember { mutableStateOf("") }
     var comment by remember { mutableStateOf("") }
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.review_dialog_title)) },
-        text = {
-            Column {
-                Text(stringResource(R.string.review_rating_label, rating), fontWeight = FontWeight.Medium)
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    OutlinedButton(onClick = { if (rating > 1) rating-- }) { Text("-") }
-                    Text(
-                        text = rating.toString(),
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        fontWeight = FontWeight.Bold
-                    )
-                    OutlinedButton(onClick = { if (rating < 10) rating++ }) { Text("+") }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text(stringResource(R.string.review_field_title)) },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = comment,
-                    onValueChange = { comment = it },
-                    label = { Text(stringResource(R.string.review_field_comment)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                error?.let {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = it,
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = { onSubmit(rating, title, comment) },
-                enabled = !isSubmitting
-            ) {
-                Text(if (isSubmitting) stringResource(R.string.review_submitting) else stringResource(R.string.review_submit))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.common_cancel)) }
+    // Dimmed scrim covering the whole screen; tapping it dismisses the form.
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.4f))
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onDismiss() }
+    ) {
+    Surface(
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 4.dp,
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            // Swallow taps on the form itself so they don't dismiss it.
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .imePadding()
+                .padding(horizontal = 24.dp)
+                .padding(top = 24.dp, bottom = 24.dp)
+        ) {
+        Text(
+            text = stringResource(R.string.review_dialog_title),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(stringResource(R.string.review_rating_label, rating), fontWeight = FontWeight.Medium)
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedButton(onClick = { if (rating > 1) rating-- }) { Text("-") }
+            Text(
+                text = rating.toString(),
+                modifier = Modifier.padding(horizontal = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
+            OutlinedButton(onClick = { if (rating < 10) rating++ }) { Text("+") }
         }
-    )
+        Spacer(modifier = Modifier.height(12.dp))
+        OutlinedTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = { Text(stringResource(R.string.review_field_title)) },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = comment,
+            onValueChange = { comment = it },
+            label = { Text(stringResource(R.string.review_field_comment)) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        error?.let {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { onSubmit(rating, title, comment) },
+            enabled = !isSubmitting,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(if (isSubmitting) stringResource(R.string.review_submitting) else stringResource(R.string.review_submit))
+        }
+        }
+    }
+    }
 }
 
 val imageList = listOf(

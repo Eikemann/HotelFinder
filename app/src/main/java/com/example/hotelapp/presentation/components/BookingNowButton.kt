@@ -27,6 +27,7 @@ import com.example.hotelapp.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingNowButton(
+    pricePerNight: String,
     onClick: () -> Unit
 ) {
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
@@ -46,7 +47,7 @@ fun BookingNowButton(
 
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
-                        text = "29$",
+                        text = "$$pricePerNight",
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.primary
                     )

@@ -138,7 +138,7 @@ private fun CountrySection(
             FilterChip(
                 selected = country == selected,
                 onClick = { onSelect(if (selected == country) null else country) },
-                label = { Text(country) }
+                label = { Text(localizedCountryName(country)) }
             )
         }
     }
@@ -269,6 +269,23 @@ private fun AccommodationSection(
             )
         }
     }
+}
+
+@Composable
+private fun localizedCountryName(country: String): String = when (country.trim().lowercase()) {
+    "turkey" -> stringResource(R.string.country_turkey)
+    "france" -> stringResource(R.string.country_france)
+    "italy", "italia" -> stringResource(R.string.country_italia)
+    "germany" -> stringResource(R.string.country_germany)
+    "uae", "united arab emirates" -> stringResource(R.string.country_uae)
+    "thailand" -> stringResource(R.string.country_thailand)
+    "south korea", "korea" -> stringResource(R.string.country_south_korea)
+    "japan" -> stringResource(R.string.country_japan)
+    "egypt" -> stringResource(R.string.country_egypt)
+    "spain" -> stringResource(R.string.country_spain)
+    "greece" -> stringResource(R.string.country_greece)
+    "usa", "united states", "us" -> stringResource(R.string.country_usa)
+    else -> country
 }
 
 /** Localized display label for a backend accommodation enum value (HOTEL, APARTMENT, ...). */
