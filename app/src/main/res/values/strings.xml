@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HotelApp</string>
+    <string name="app_name">Booking App</string>
 
     <!-- Common -->
     <string name="common_see_all">See all</string>
@@ -72,8 +72,11 @@
     <string name="city_dubai">Dubai</string>
     <string name="city_hurghada">Hurghada</string>
     <string name="city_bangkok">Bangkok</string>
-    <string name="city_tokyo">Tokyo</string>
-    <string name="city_seoul">Seoul</string>
+    <string name="city_phuket">Phuket</string>
+    <string name="city_tbilisi">Tbilisi</string>
+    <string name="city_batumi">Batumi</string>
+    <string name="city_goa">Goa</string>
+    <string name="city_nha_trang">Nha Trang</string>
 
     <!-- Search -->
     <string name="search_hint">Search</string>

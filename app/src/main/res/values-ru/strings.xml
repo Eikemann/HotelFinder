@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HotelApp</string>
+    <string name="app_name">Приложение для аренды жилья</string>
 
     <!-- Common -->
     <string name="common_see_all">Смотреть все</string>
@@ -72,8 +72,11 @@
     <string name="city_dubai">Дубай</string>
     <string name="city_hurghada">Хургада</string>
     <string name="city_bangkok">Бангкок</string>
-    <string name="city_tokyo">Токио</string>
-    <string name="city_seoul">Сеул</string>
+    <string name="city_phuket">Пхукет</string>
+    <string name="city_tbilisi">Тбилиси</string>
+    <string name="city_batumi">Батуми</string>
+    <string name="city_goa">Гоа</string>
+    <string name="city_nha_trang">Нячанг</string>
 
     <!-- Search -->
     <string name="search_hint">Поиск</string>

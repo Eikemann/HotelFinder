@@ -50,12 +50,20 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
+import coil.size.Size
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.Filters
 import com.example.hotelapp.domain.local.model.Hotel
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.components.FilterCard
 
+
+// Target decode size (px) for carousel thumbnails. Well below the card's full
+// pixel footprint (~780x540 on a 3x screen) to keep scrolling smooth.
+private const val THUMB_WIDTH_PX = 320
+private const val THUMB_HEIGHT_PX = 224
 
 @Composable
 fun DashboardScreen(
@@ -65,24 +73,51 @@ fun DashboardScreen(
     val context = LocalContext.current
     var selectedFilterId by remember { mutableStateOf<Int?>(null) }
 
-    val filters = listOf(
-        Filters(id = 1, filterName = stringResource(R.string.filter_hotels), filterIcon = R.drawable.icon),
-        Filters(id = 2, filterName = stringResource(R.string.filter_condos), filterIcon = R.drawable.icon),
-        Filters(id = 3, filterName = stringResource(R.string.filter_houses), filterIcon = R.drawable.icon),
-        Filters(id = 4, filterName = stringResource(R.string.filter_villas), filterIcon = R.drawable.icon),
-        Filters(id = 5, filterName = stringResource(R.string.filter_apartments), filterIcon = R.drawable.icon)
-    )
+    // Resolve string resources once, then remember the derived collections so they
+    // are not rebuilt on every recomposition (e.g. each filter-chip tap).
+    val filterHotels = stringResource(R.string.filter_hotels)
+    val filterCondos = stringResource(R.string.filter_condos)
+    val filterHouses = stringResource(R.string.filter_houses)
+    val filterVillas = stringResource(R.string.filter_villas)
+    val filterApartments = stringResource(R.string.filter_apartments)
+    val filters = remember(filterHotels, filterCondos, filterHouses, filterVillas, filterApartments) {
+        listOf(
+            Filters(id = 1, filterName = filterHotels, filterIcon = R.drawable.icon),
+            Filters(id = 2, filterName = filterCondos, filterIcon = R.drawable.icon),
+            Filters(id = 3, filterName = filterHouses, filterIcon = R.drawable.icon),
+            Filters(id = 4, filterName = filterVillas, filterIcon = R.drawable.icon),
+            Filters(id = 5, filterName = filterApartments, filterIcon = R.drawable.icon)
+        )
+    }
     // Maps a backend city name to its localized display label. Cities without an
     // entry fall back to the raw name returned by the API.
-    val cityLabels = mapOf(
-        "Antalya" to stringResource(R.string.city_antalya),
-        "Istanbul" to stringResource(R.string.city_istanbul),
-        "Dubai" to stringResource(R.string.city_dubai),
-        "Hurghada" to stringResource(R.string.city_hurghada),
-        "Bangkok" to stringResource(R.string.city_bangkok),
-        "Tokyo" to stringResource(R.string.city_tokyo),
-        "Seoul" to stringResource(R.string.city_seoul),
-    )
+    val cityAntalya = stringResource(R.string.city_antalya)
+    val cityIstanbul = stringResource(R.string.city_istanbul)
+    val cityDubai = stringResource(R.string.city_dubai)
+    val cityHurghada = stringResource(R.string.city_hurghada)
+    val cityBangkok = stringResource(R.string.city_bangkok)
+    val cityPhuket = stringResource(R.string.city_phuket)
+    val cityTbilisi = stringResource(R.string.city_tbilisi)
+    val cityBatumi = stringResource(R.string.city_batumi)
+    val cityGoa = stringResource(R.string.city_goa)
+    val cityNhaTrang = stringResource(R.string.city_nha_trang)
+    val cityLabels = remember(
+        cityAntalya, cityIstanbul, cityDubai, cityHurghada, cityBangkok,
+        cityPhuket, cityTbilisi, cityBatumi, cityGoa, cityNhaTrang
+    ) {
+        mapOf(
+            "Antalya" to cityAntalya,
+            "Istanbul" to cityIstanbul,
+            "Dubai" to cityDubai,
+            "Hurghada" to cityHurghada,
+            "Bangkok" to cityBangkok,
+            "Phuket" to cityPhuket,
+            "Tbilisi" to cityTbilisi,
+            "Batumi" to cityBatumi,
+            "Goa" to cityGoa,
+            "Nha Trang" to cityNhaTrang,
+        )
+    }
 
     LaunchedEffect(Unit) {
         viewModel.loadHotels()
@@ -221,8 +256,21 @@ private fun CaruselHotelCard(
     ) {
         Column(modifier = Modifier.fillMaxHeight()) {
             Box {
+                val context = LocalContext.current
                 AsyncImage(
-                    model = hotel.imageUrl ?: hotel.imageRes,
+                    // Decode these carousel thumbnails at a reduced resolution rather
+                    // than the card's full pixel size — cuts decode time and memory,
+                    // which was the main source of scroll lag. Crop hides the
+                    // slight quality drop on these small cards.
+                    model = remember(hotel.imageUrl, hotel.imageRes) {
+                        ImageRequest.Builder(context)
+                            .data(hotel.imageUrl ?: hotel.imageRes)
+                            .size(Size(THUMB_WIDTH_PX, THUMB_HEIGHT_PX))
+                            .scale(Scale.FILL)
+                            .allowRgb565(true)
+                            .crossfade(true)
+                            .build()
+                    },
                     contentDescription = hotel.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
